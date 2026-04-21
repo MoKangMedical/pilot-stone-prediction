@@ -1,0 +1,11 @@
+# 排除大文件
+*.docx
+*.pdf
+*.pptx
+*.xlsx
+*.zip
+*.mp4
+*.m4a
+*.rar
+*.7z
+.DS_Store
