@@ -1,0 +1,304 @@
+                        const normalizedValue = (value - indicator.min) / (indicator.max - indicator.min);
+                        metabolicSum += normalizedValue * indicator.weight;
+                        weightSum += indicator.weight;
+                        metabolicCount++;
+                    }
+                }
+            });
+            
+            const metabolicRisk = metabolicSum / weightSum;
+            
+            // 综合健康指标
+            let normBodyFat = 0;
+            if (!bodyFatUndone.checked && bodyFat.value) {
+                const bodyFatVal = parseFloat(bodyFat.value);
+                if (!isNaN(bodyFatVal)) {
+                    normBodyFat = (bodyFatVal - 5) / 45.0;
+                }
+            }
+            
+            const normDVT = document.getElementById('dvt').checked ? 1.0 : 0.0;
+            const normHydration = Math.max(0, (5.0 - parseInt(hydrationValue.textContent)) / 5.0);
+            const normRadiation = parseFloat(radiation.value) / 100.0;
+            const normWaterIntake = 1 - (parseFloat(waterIntake.value) / 5000.0);
+            const normExercise = 1 - (parseFloat(exercise.value) / 100.0);
+            const normWorkStress = parseFloat(workStress.value) / 100.0;
+            const normSleepQuality = 1 - (parseFloat(sleepQuality.value) / 100.0);
+            const normMentalState = 1 - (parseFloat(mentalState.value) / 100.0);
+            
+            // 计算BMI
+            let bmiRisk = 0;
+            const height = parseFloat(document.getElementById('height').value);
+            const weightVal = parseFloat(document.getElementById('weight').value);
+            if (!isNaN(height) && !isNaN(weightVal) && height > 0) {
+                const bmi = weightVal / ((height/100) ** 2);
+                bmiRisk = Math.min(1, Math.max(0, (bmi - 18.5) / (30 - 18.5)));
+            }
+            
+            // 计算腰臀比
+            let waistHipRisk = 0;
+            const waist = parseFloat(document.getElementById('waist').value);
+            const hip = parseFloat(document.getElementById('hip').value);
+            if (!isNaN(waist) && !isNaN(hip) && hip > 0) {
+                const waistHipRatio = waist / hip;
+                waistHipRisk = Math.min(1, Math.max(0, (waistHipRatio - 0.85) / (1.1 - 0.85))); // 假设0.85-1.1为风险范围
+            }
+            
+            // 计算血压风险
+            let bloodPressureRisk = 0;
+            const systolic = parseFloat(document.getElementById('systolic').value);
+            const diastolic = parseFloat(document.getElementById('diastolic').value);
+            if (!isNaN(systolic) && !isNaN(diastolic)) {
+                // 简单风险计算：收缩压>140或舒张压>90为高风险
+                const systolicRisk = Math.min(1, Math.max(0, (systolic - 120) / (160 - 120)));
+                const diastolicRisk = Math.min(1, Math.max(0, (diastolic - 80) / (100 - 80)));
+                bloodPressureRisk = Math.max(systolicRisk, diastolicRisk);
+            }
+            
+            const comprehensiveRisk = (normBodyFat + normDVT + normUrineGravity + normHydration + 
+                                     normRadiation + normWaterIntake + normExercise + normWorkStress + 
+                                     normSleepQuality + normMentalState + bmiRisk + waistHipRisk + bloodPressureRisk) / 13.0;
+            
+            // 综合风险
+            const overallRisk = (flightRisk + metabolicRisk + comprehensiveRisk) / 3.0;
+            const riskPercentage = Math.min(100, Math.max(0, (overallRisk * 100).toFixed(1)));
+            
+            // 更新UI显示结果
+            document.getElementById('riskPercentage').textContent = riskPercentage;
+            document.getElementById('flightRisk').textContent = (flightRisk * 100).toFixed(1) + '%';
+            document.getElementById('metabolicRisk').textContent = (metabolicRisk * 100).toFixed(1) + '%';
+            document.getElementById('healthRisk').textContent = (comprehensiveRisk * 100).toFixed(1) + '%';
+            
+            // 更新风险指示器
+            const riskMeterFill = document.getElementById('riskMeterFill');
+            const riskIndicator = document.getElementById('riskIndicator');
+            
+            riskMeterFill.style.width = riskPercentage + '%';
+            riskIndicator.style.left = riskPercentage + '%';
+            riskIndicator.textContent = riskPercentage + '%';
+            
+            // 更新风险描述
+            const riskDescription = document.getElementById('riskDescription');
+            if (riskPercentage < 20) {
+                riskDescription.textContent = "根据您的输入数据，您的结石风险处于低风险水平。继续保持良好的飞行习惯和健康管理。";
+            } else if (riskPercentage < 50) {
+                riskDescription.textContent = "您的结石风险处于中等水平。建议关注高空巡航时间占比和补水频率，适当增加水分摄入并定期进行健康检查。";
+            } else if (riskPercentage < 80) {
+                riskDescription.textContent = "您的结石风险较高！请务必关注代谢指标和职业特征因素，建议咨询专业医生进行详细检查并调整饮食和飞行习惯。";
+            } else {
+                riskDescription.textContent = "警告：您的结石风险非常高！强烈建议立即咨询医生进行专业评估，并调整飞行安排与生活习惯。高风险因素包括职业特征和代谢指标。";
+            }
+            
+            // 生成详细健康建议
+            generateDetailedHealthSuggestions(riskPercentage);
+            
+            // 显示结果
+            document.getElementById('resultContainer').classList.add('active');
+            
+            // 滚动到结果部分
+            document.getElementById('resultContainer').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+        
+        // 生成详细健康建议函数
+        function generateDetailedHealthSuggestions(riskPercentage) {
+            const detailedSuggestions = document.getElementById('detailedSuggestions');
+            detailedSuggestions.innerHTML = '';
+            
+            // 获取用户输入的值
+            const uricAcidVal = !uricAcidUndone.checked && uricAcidInput.value ? parseFloat(uricAcidInput.value) : null;
+            const calciumVal = !calciumUndone.checked && calciumInput.value ? parseFloat(calciumInput.value) : null;
+            const phosphorusVal = !phosphorusUndone.checked && phosphorusInput.value ? parseFloat(phosphorusInput.value) : null;
+            const ureaVal = !ureaUndone.checked && ureaInput.value ? parseFloat(ureaInput.value) : null;
+            const creatinineVal = !creatinineUndone.checked && creatinineInput.value ? parseFloat(creatinineInput.value) : null;
+            const urinePHVal = !document.getElementById('urinePHUndone').checked && document.getElementById('urinePH').value ? 
+                parseFloat(document.getElementById('urinePH').value) : null;
+            const urineGravityVal = !urineGravityUndone.checked && urineGravity.value ? parseFloat(urineGravity.value) : null;
+            const serumOxalateVal = parseFloat(serumOxalate.value);
+            const waterIntakeVal = parseFloat(waterIntake.value);
+            const hydrationTimes = parseInt(hydrationValue.textContent);
+            const flightDurationVal = parseFloat(flightDuration.value);
+            const annualFlightVal = parseFloat(annualFlight.value);
+            const bodyFatVal = !bodyFatUndone.checked && bodyFat.value ? parseFloat(bodyFat.value) : null;
+            const lipoproteinVal = !lipoproteinUndone.checked ? parseFloat(lipoprotein.value) : null;
+            const crpVal = !crpUndone.checked ? parseFloat(crp.value) : null;
+            
+            // 从计算值元素获取尿酸结晶指数
+            let uricAcidIndexVal = null;
+            const calculatedUricAcidIndexElement = document.getElementById('calculatedUricAcidIndex');
+            if (calculatedUricAcidIndexElement) {
+                const calculatedIndex = parseFloat(calculatedUricAcidIndexElement.textContent);
+                if (!isNaN(calculatedIndex)) {
+                    uricAcidIndexVal = calculatedIndex;
+                }
+            }
+            
+            // 根据风险级别和具体数值生成建议
+            const suggestions = [];
+            
+            // 根据风险级别添加通用建议
+            if (riskPercentage < 20) {
+                suggestions.push({
+                    title: "低风险维持建议",
+                    content: `您的结石风险评估为低风险（${riskPercentage}%），这表明您目前的健康状况良好，结石风险较低。继续保持以下健康习惯：保持每日饮水量在${waterIntakeVal}ml左右，每日补水${hydrationTimes}次，均衡饮食，适度运动。建议每年进行一次常规体检，监测肾功能相关指标。`
+                });
+            } else if (riskPercentage < 50) {
+                suggestions.push({
+                    title: "中等风险改善建议",
+                    content: `您的结石风险评估为中等风险（${riskPercentage}%），存在一定的结石风险。建议重点关注以下方面：增加每日饮水量至2500-3000ml，特别是在飞行期间。您目前的每日饮水量为${waterIntakeVal}ml，可以考虑适当增加。同时注意减少高盐、高嘌呤食物的摄入。`
+                });
+            } else if (riskPercentage < 80) {
+                suggestions.push({
+                    title: "高风险干预建议",
+                    content: `您的结石风险评估为高风险（${riskPercentage}%），需要立即采取干预措施。强烈建议：1. 咨询肾内科或泌尿外科医生进行详细检查；2. 将每日饮水量增加至3000ml以上；3. 严格控制盐分摄入，每日钠摄入量低于2000mg；4. 定期监测尿液PH值和肾功能指标。`
+                });
+            } else {
+                suggestions.push({
+                    title: "极高风险紧急建议",
+                    content: `警告！您的结石风险评估为极高风险（${riskPercentage}%），存在显著的结石形成风险。必须立即采取行动：1. 立即就医进行专业评估和检查；2. 可能需要药物治疗或饮食干预；3. 调整飞行任务，避免长时间连续飞行；4. 建立严格的饮水计划，确保每日饮水量达到3500ml以上。`
+                });
+            }
+            
+            // 根据具体指标值添加针对性建议
+            if (uricAcidVal !== null) {
+                let uricAcidSuggestion = "";
+                const gender = userGender.value;
+                const normalRange = gender === 'male' ? "208-428 μmol/L" : "155-357 μmol/L";
+                
+                if (uricAcidVal > (gender === 'male' ? 428 : 357)) {
+                    uricAcidSuggestion = `您的尿酸值为${uricAcidVal} μmol/L，高于正常范围（${normalRange}），可能增加尿酸结石风险。建议：减少高嘌呤食物（动物内脏、海鲜、浓汤）摄入，增加饮水量促进尿酸排泄，必要时咨询医生使用降尿酸药物。`;
+                } else if (uricAcidVal < (gender === 'male' ? 208 : 155)) {
+                    uricAcidSuggestion = `您的尿酸值为${uricAcidVal} μmol/L，低于正常范围（${normalRange}）。虽然低尿酸通常不是结石的主要风险因素，但仍建议保持均衡饮食。`;
+                } else {
+                    uricAcidSuggestion = `您的尿酸值为${uricAcidVal} μmol/L，在正常范围内（${normalRange}），这对预防尿酸结石是有利的。继续保持良好饮食习惯。`;
+                }
+                suggestions.push({
+                    title: "尿酸管理建议",
+                    content: uricAcidSuggestion
+                });
+            }
+            
+            if (calciumVal !== null && phosphorusVal !== null) {
+                const ratio = calciumVal / phosphorusVal;
+                let calciumPhosphorusSuggestion = "";
+                
+                if (ratio > 3.0) {
+                    calciumPhosphorusSuggestion = `您的钙磷比值为${ratio.toFixed(2)}（钙${calciumVal} mmol/L，磷${phosphorusVal} mmol/L），比值偏高。高钙磷比可能增加钙结石风险。建议：避免过量补充钙剂，增加磷的摄入（如全谷物、坚果），但需在医生指导下进行。`;
+                } else if (ratio < 2.0) {
+                    calciumPhosphorusSuggestion = `您的钙磷比值为${ratio.toFixed(2)}（钙${calciumVal} mmol/L，磷${phosphorusVal} mmol/L），比值偏低。这可能与磷摄入过多或钙吸收不良有关。建议：适量增加富含钙的食物（如奶制品、深绿色蔬菜），减少高磷食物（如加工食品、碳酸饮料）。`;
+                } else {
+                    calciumPhosphorusSuggestion = `您的钙磷比值为${ratio.toFixed(2)}（钙${calciumVal} mmol/L，磷${phosphorusVal} mmol/L），在正常范围（2.0-3.0）内，有利于维持骨骼健康和预防结石。`;
+                }
+                suggestions.push({
+                    title: "钙磷平衡建议",
+                    content: calciumPhosphorusSuggestion
+                });
+            }
+            
+            if (ureaVal !== null && creatinineVal !== null) {
+                const ratio = ureaVal / (creatinineVal / 1000);
+                const mappedValue = ratio / 75;
+                let ureaCreatinineSuggestion = "";
+                
+                if (mappedValue > 1.2) {
+                    ureaCreatinineSuggestion = `您的尿素/肌酐比值为${mappedValue.toFixed(2)}（尿素${ureaVal} μmol/L，肌酐${creatinineVal} μmol/L），比值偏高。这可能提示脱水、高蛋白饮食或肾功能轻度异常。建议：增加水分摄入，适量减少蛋白质摄入，定期监测肾功能。`;
+                } else if (mappedValue < 0.8) {
+                    ureaCreatinineSuggestion = `您的尿素/肌酐比值为${mappedValue.toFixed(2)}（尿素${ureaVal} μmol/L，肌酐${creatinineVal} μmol/L），比值偏低。这可能与低蛋白饮食、肝功能异常或肌肉量减少有关。建议：保证适量优质蛋白摄入，咨询医生评估营养状况。`;
+                } else {
+                    ureaCreatinineSuggestion = `您的尿素/肌酐比值为${mappedValue.toFixed(2)}（尿素${ureaVal} μmol/L，肌酐${creatinineVal} μmol/L），在正常范围内，表明蛋白质代谢和肾功能基本正常。`;
+                }
+                suggestions.push({
+                    title: "肾功能相关建议",
+                    content: ureaCreatinineSuggestion
+                });
+            }
+            
+            if (urinePHVal !== null) {
+                let urinePHSuggestion = "";
+                
+                if (urinePHVal < 5.5) {
+                    urinePHSuggestion = `您的尿液PH值为${urinePHVal}，偏酸性。酸性尿液有利于某些类型结石的形成。建议：增加碱性食物摄入（如蔬菜、水果），适量饮用柠檬水（柠檬酸有助于预防结石），避免过多摄入酸性食物（如肉类、谷物）。`;
+                } else if (urinePHVal > 7.0) {
+                    urinePHSuggestion = `您的尿液PH值为${urinePHVal}，偏碱性。碱性尿液有利于预防某些类型结石，但可能增加其他类型结石风险。建议：保持尿液PH在6.0-6.5的理想范围，这有助于预防大多数类型的结石。`;
+                } else {
+                    urinePHSuggestion = `您的尿液PH值为${urinePHVal}，在理想范围（5.5-7.0）内，有利于预防结石形成。继续保持良好的饮食习惯。`;
+                }
+                suggestions.push({
+                    title: "尿液酸碱度管理建议",
+                    content: urinePHSuggestion
+                });
+            }
+            
+            if (urineGravityVal !== null) {
+                let urineGravitySuggestion = "";
+                
+                if (urineGravityVal > 1.025) {
+                    urineGravitySuggestion = `您的尿液比重为${urineGravityVal}，偏高。高比重尿液通常表示尿液浓缩，可能增加结石风险。建议：增加水分摄入，保持尿液稀释，特别是飞行期间要定时补水。`;
+                } else if (urineGravityVal < 1.010) {
+                    urineGravitySuggestion = `您的尿液比重为${urineGravityVal}，偏低。低比重尿液通常表示水分摄入充足，有利于预防结石。继续保持良好的饮水习惯。`;
+                } else {
+                    urineGravitySuggestion = `您的尿液比重为${urineGravityVal}，在正常范围（1.010-1.025）内，表明水分摄入适中，有利于预防结石。`;
+                }
+                suggestions.push({
+                    title: "尿液比重管理建议",
+                    content: urineGravitySuggestion
+                });
+            }
+            
+            if (bodyFatVal !== null) {
+                let bodyFatSuggestion = "";
+                
+                if (bodyFatVal > 25) {
+                    bodyFatSuggestion = `您的体脂率为${bodyFatVal}%，偏高。高体脂率与结石风险增加相关。建议：通过有氧运动和力量训练结合的方式减脂，控制体重在健康范围，同时注意饮食调整。`;
+                } else if (bodyFatVal < 15) {
+                    bodyFatSuggestion = `您的体脂率为${bodyFatVal}%，偏低。虽然低体脂率通常不是结石的主要风险因素，但需注意保持均衡营养摄入，避免过度节食。`;
+                } else {
+                    bodyFatSuggestion = `您的体脂率为${bodyFatVal}%，在健康范围内，有利于维持整体健康状态和预防结石。`;
+                }
+                suggestions.push({
+                    title: "体脂管理建议",
+                    content: bodyFatSuggestion
+                });
+            }
+            
+            if (lipoproteinVal !== null) {
+                let lipoproteinSuggestion = "";
+                
+                if (lipoproteinVal > 30) {
+                    lipoproteinSuggestion = `您的脂蛋白(a)水平为${lipoproteinVal}，偏高。高脂蛋白(a)水平可能与结石风险增加相关。建议：咨询心血管科医生评估心血管风险，同时注意控制血脂和保持健康生活方式。`;
+                } else {
+                    lipoproteinSuggestion = `您的脂蛋白(a)水平为${lipoproteinVal}，在可接受范围内。继续保持健康生活方式，定期监测血脂水平。`;
+                }
+                suggestions.push({
+                    title: "脂蛋白(a)管理建议",
+                    content: lipoproteinSuggestion
+                });
+            }
+            
+            if (crpVal !== null) {
+                let crpSuggestion = "";
+                
+                if (crpVal > 3.0) {
+                    crpSuggestion = `您的超敏C反应蛋白为${crpVal}，偏高。这可能提示体内存在炎症反应，炎症状态可能增加结石风险。建议：寻找并处理可能的感染或炎症源，保持健康生活方式降低炎症水平。`;
+                } else {
+                    crpSuggestion = `您的超敏C反应蛋白为${crpVal}，在正常范围内，表明体内无明显炎症反应，有利于预防结石。`;
+                }
+                suggestions.push({
+                    title: "炎症指标管理建议",
+                    content: crpSuggestion
+                });
+            }
+            
+            // 尿酸结晶指数建议
+            if (uricAcidIndexVal !== null) {
+                let uricAcidIndexSuggestion = "";
+                
+                if (uricAcidIndexVal > 7.0) {
+                    uricAcidIndexSuggestion = `您的尿酸结晶指数为${uricAcidIndexVal.toFixed(1)}，偏高。这表明尿酸结晶形成的风险较高。建议：增加饮水量，减少高嘌呤食物摄入，必要时使用碱化尿液药物。`;
+                } else if (uricAcidIndexVal < 3.0) {
+                    uricAcidIndexSuggestion = `您的尿酸结晶指数为${uricAcidIndexVal.toFixed(1)}，偏低。尿酸结晶风险较低，继续保持良好习惯。`;
+                } else {
+                    uricAcidIndexSuggestion = `您的尿酸结晶指数为${uricAcidIndexVal.toFixed(1)}，在正常范围内，尿酸结晶风险适中。`;
+                }
+(Content truncated due to size limit. Use line ranges to read remaining content)
