@@ -9,3 +9,6 @@
 *.rar
 *.7z
 .DS_Store
+.env
+.env.local
+.env.production
