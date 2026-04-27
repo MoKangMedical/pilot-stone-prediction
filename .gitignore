@@ -1,14 +1,52 @@
-# 排除大文件
-*.docx
-*.pdf
-*.pptx
-*.xlsx
-*.zip
-*.mp4
-*.m4a
-*.rar
-*.7z
-.DS_Store
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+
+# Environment
 .env
 .env.local
 .env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+.manus-logs/
+
+# Database
+*.db
+*.sqlite
+
+# Temporary files
+pasted_file_*.png
+tmp/
+temp/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Vite
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+*.pdf
+*.xlsx
+*.docx
