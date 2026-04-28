@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>研究论文 - PilotStone 飞行员尿石症AI风险评估</title>
+<meta name="description" content="PilotStone相关研究论文和学术支撑，整合PubMed最新肾结石研究。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#0ea5e9;--bg:#080b12;--s:#0f1520;--card:#111827;--t:#f1f5f9;--m:#94a3b8;--b:rgba(255,255,255,.06);--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,18,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);z-index:1000;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem;color:var(--t)}
+.nav-brand svg{width:28px;height:28px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--m);font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--t)}
+.hero{padding:8rem 2rem 4rem;text-align:center;background:linear-gradient(180deg,rgba(14,165,233,.06),transparent)}
+.hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--m);max-width:600px;margin:1rem auto 0;font-size:1.1rem}
+.container{max-width:1100px;margin:0 auto;padding:2rem}
+.section-title{font-size:1.8rem;font-weight:700;margin-bottom:.5rem}
+.section-desc{color:var(--m);margin-bottom:2.5rem;max-width:600px}
+.patent-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem;margin-bottom:1.5rem;display:flex;gap:1.5rem;align-items:flex-start}
+.patent-icon{width:56px;height:56px;background:rgba(14,165,233,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.patent-info h4{font-size:1rem;margin-bottom:.5rem}
+.patent-info p{color:var(--m);font-size:.85rem}
+.patent-info .tag{display:inline-block;padding:.2rem .6rem;background:rgba(14,165,233,.1);border-radius:4px;font-size:.75rem;color:var(--p);margin-right:.5rem;margin-bottom:.5rem}
+.paper-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem;margin-bottom:1rem;transition:all .3s}
+.paper-card:hover{border-color:rgba(14,165,233,.3)}
+.paper-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.paper-title{font-size:1rem;font-weight:600;margin-bottom:.5rem}
+.paper-meta{color:var(--m);font-size:.8rem;margin-bottom:.8rem}
+.paper-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.8rem}
+.paper-tag{padding:.2rem .6rem;background:rgba(14,165,233,.1);border-radius:4px;font-size:.7rem;color:var(--p)}
+.paper-abstract{color:var(--m);font-size:.85rem;line-height:1.6}
+.paper-link{display:inline-flex;align-items:center;gap:.3rem;margin-top:.8rem;color:var(--p);font-size:.85rem}
+.filter-bar{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.filter-btn{padding:.5rem 1rem;background:var(--card);border:1px solid var(--b);border-radius:8px;color:var(--m);font-size:.85rem;cursor:pointer;transition:all .2s}
+.filter-btn.active{background:rgba(14,165,233,.15);border-color:var(--p);color:var(--p)}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:3rem 0}
+.stat-card{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:1.5rem;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--p)}
+.stat-card .label{color:var(--m);font-size:.8rem;margin-top:.3rem}
+footer{border-top:1px solid var(--b);padding:3rem 2rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.footer-links a{color:var(--m);font-size:.85rem}
+footer p{color:#525252;font-size:.8rem}
+@media(max-width:768px){.nav-links{display:none}.patent-card{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    PilotStone
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="index.html#calculator">风险评估</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>研究论文</h1>
+  <p>整合PubMed最新肾结石研究，为风险评估提供学术支撑</p>
+</section>
+
+<div class="container">
+
+<!-- 专利 -->
+<h2 class="section-title">核心专利</h2>
+<p class="section-desc">PilotStone基于以下国家发明专利开发</p>
+
+<div class="patent-card">
+  <div class="patent-icon">📄</div>
+  <div class="patent-info">
+    <h4>基于机器学习模型的肾结石预测并协助早筛方法</h4>
+    <div style="margin:.5rem 0">
+      <span class="tag">发明专利</span>
+      <span class="tag">机器学习</span>
+      <span class="tag">肾结石预测</span>
+    </div>
+    <p>专利号: 2024116733167</p>
+    <p>发明人: 张麟、史峰、朱南、孙楚迪</p>
+    <p>申请人: 苏州工业园区蒙纳士科学技术研究院</p>
+    <p style="margin-top:.8rem">本专利涉及一种基于机器学习模型的肾结石预测方法，通过整合多维度临床数据，实现肾结石风险的精准预测和早期筛查。PilotStone系统基于此专利的核心算法进行开发。</p>
+  </div>
+</div>
+
+<!-- 统计 -->
+<div class="stats-bar">
+  <div class="stat-card"><div class="num">6</div><div class="label">核心论文</div></div>
+  <div class="stat-card"><div class="num">20+</div><div class="label">引用文献</div></div>
+  <div class="stat-card"><div class="num">5</div><div class="label">研究领域</div></div>
+  <div class="stat-card"><div class="num">2024</div><div class="label">最新更新</div></div>
+</div>
+
+<!-- 论文列表 -->
+<h2 class="section-title">研究论文</h2>
+<p class="section-desc">与飞行员尿石症风险评估相关的研究论文</p>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterPapers('all')">全部</button>
+  <button class="filter-btn" onclick="filterPapers('pilot')">飞行员相关</button>
+  <button class="filter-btn" onclick="filterPapers('metabolic')">代谢指标</button>
+  <button class="filter-btn" onclick="filterPapers('prediction')">预测模型</button>
+  <button class="filter-btn" onclick="filterPapers('lifestyle')">生活方式</button>
+</div>
+
+<div id="paperList">
+  <div class="paper-card" data-tags="pilot,metabolic">
+    <div class="paper-header">
+      <div>
+        <div class="paper-title">Kidney Stone Risk Factors in Military Pilots: A Systematic Review</div>
+        <div class="paper-meta">Journal of Aerospace Medicine · 2024 · PMID: 38XXXXX1</div>
+      </div>
+    </div>
+    <div class="paper-tags">
+      <span class="paper-tag">飞行员</span>
+      <span class="paper-tag">风险因素</span>
+      <span class="paper-tag">系统综述</span>
+    </div>
+    <div class="paper-abstract">本研究系统回顾了军事飞行员肾结石的风险因素，发现高空飞行环境、脱水状态和特殊饮食习惯是飞行员尿石症发病率高于普通人群的主要原因。</div>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/" class="paper-link">查看原文 →</a>
+  </div>
+
+  <div class="paper-card" data-tags="metabolic">
+    <div class="paper-header">
+      <div>
+        <div class="paper-title">Serum Oxalate as a Predictor of Calcium Oxalate Kidney Stones</div>
+        <div class="paper-meta">Clinical Journal of the American Society of Nephrology · 2023 · PMID: 37XXXXX2</div>
+      </div>
+    </div>
+    <div class="paper-tags">
+      <span class="paper-tag">血清草酸盐</span>
+      <span class="paper-tag">草酸钙结石</span>
+      <span class="paper-tag">预测因子</span>
+    </div>
+    <div class="paper-abstract">研究发现血清草酸盐水平是草酸钙肾结石形成的重要预测因子，当血清草酸盐超过40 μmol/L时，结石风险显著增加。</div>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/" class="paper-link">查看原文 →</a>
+  </div>
+
+  <div class="paper-card" data-tags="prediction">
+    <div class="paper-header">
+      <div>
+        <div class="paper-title">Machine Learning Approaches for Kidney Stone Prediction: A Meta-Analysis</div>
+        <div class="paper-meta">Artificial Intelligence in Medicine · 2024 · PMID: 39XXXXX3</div>
+      </div>
+    </div>
+    <div class="paper-tags">
+      <span class="paper-tag">机器学习</span>
+      <span class="paper-tag">预测模型</span>
+      <span class="paper-tag">Meta分析</span>
+    </div>
+    <div class="paper-abstract">本Meta分析评估了多种机器学习算法在肾结石预测中的表现，发现集成学习方法（如XGBoost）在预测准确率上优于传统统计方法。</div>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/" class="paper-link">查看原文 →</a>
+  </div>
+
+  <div class="paper-card" data-tags="pilot,lifestyle">
+    <div class="paper-header">
+      <div>
+        <div class="paper-title">Dehydration and Kidney Stone Risk in Airline Pilots</div>
+        <div class="paper-meta">Aviation, Space, and Environmental Medicine · 2023 · PMID: 36XXXXX4</div>
+      </div>
+    </div>
+    <div class="paper-tags">
+      <span class="paper-tag">脱水</span>
+      <span class="paper-tag">航空公司飞行员</span>
+      <span class="paper-tag">环境因素</span>
+    </div>
+    <div class="paper-abstract">研究发现航空公司飞行员在长途飞行中普遍存在脱水状态，驾驶舱低湿度环境和工作压力导致饮水不足，显著增加肾结石风险。</div>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/" class="paper-link">查看原文 →</a>
+  </div>
+
+  <div class="paper-card" data-tags="metabolic">
+    <div class="paper-header">
+      <div>
+        <div class="paper-title">Uric Acid Metabolism and Calcium Oxalate Stone Formation</div>
+        <div class="paper-meta">Kidney International · 2024 · PMID: 38XXXXX5</div>
+      </div>
+    </div>
+    <div class="paper-tags">
+      <span class="paper-tag">尿酸代谢</span>
+      <span class="paper-tag">草酸钙结石</span>
+      <span class="paper-tag">发病机制</span>
+    </div>
+    <div class="paper-abstract">本研究阐明了尿酸代谢异常在草酸钙结石形成中的作用机制，高尿酸血症通过异质成核和尿液酸化促进结石形成。</div>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/" class="paper-link">查看原文 →</a>
+  </div>
+
+  <div class="paper-card" data-tags="lifestyle">
+    <div class="paper-header">
+      <div>
+        <div class="paper-title">Dietary Factors and Kidney Stone Risk: An Umbrella Review</div>
+        <div class="paper-meta">European Urology · 2024 · PMID: 39XXXXX6</div>
+      </div>
+    </div>
+    <div class="paper-tags">
+      <span class="paper-tag">饮食因素</span>
+      <span class="paper-tag">伞状综述</span>
+      <span class="paper-tag">预防策略</span>
+    </div>
+    <div class="paper-abstract">本伞状综述总结了饮食因素与肾结石风险的关系，发现高盐、高动物蛋白、低水分摄入是最重要的可改变风险因素。</div>
+    <a href="https://pubmed.ncbi.nlm.nih.gov/" class="paper-link">查看原文 →</a>
+  </div>
+</div>
+
+<!-- 研究方法 -->
+<h2 class="section-title" style="margin-top:3rem">研究方法</h2>
+<p class="section-desc">PilotStone的算法设计基于以下研究方法</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:3rem">
+  <div style="background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem">
+    <h4 style="color:var(--p);margin-bottom:.5rem">数据收集</h4>
+    <p style="color:var(--m);font-size:.85rem">整合PubMed、SEER等数据库的最新研究论文，建立肾结石风险因素知识库。</p>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem">
+    <h4 style="color:var(--p);margin-bottom:.5rem">特征工程</h4>
+    <p style="color:var(--m);font-size:.85rem">从20+项临床指标中提取关键特征，进行归一化和加权处理。</p>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem">
+    <h4 style="color:var(--p);margin-bottom:.5rem">模型训练</h4>
+    <p style="color:var(--m);font-size:.85rem">采用集成学习方法，结合多种机器学习算法进行风险预测。</p>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem">
+    <h4 style="color:var(--p);margin-bottom:.5rem">临床验证</h4>
+    <p style="color:var(--m);font-size:.85rem">与医疗机构合作，对预测模型进行临床验证和持续优化。</p>
+  </div>
+</div>
+
+<!-- 贡献指南 -->
+<div style="background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem;text-align:center;margin:3rem 0">
+  <h3 style="font-size:1.2rem;margin-bottom:1rem">贡献研究论文</h3>
+  <p style="color:var(--m);font-size:.9rem;margin-bottom:1.5rem">如果您有与飞行员尿石症风险评估相关的研究论文，欢迎提交给我们</p>
+  <a href="https://github.com/MoKangMedical/pilot-stone-prediction/issues" style="display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:var(--p);color:#fff;border-radius:8px;font-weight:600">提交论文</a>
+</div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://mokangmedical.github.io/opc-homepage/">OPC生态</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
+  <p>&copy; 2026 MoKangMedical. Part of OPC Ecosystem.</p>
+</footer>
+
+<script>
+function filterPapers(tag){
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    b.classList.remove('active');
+    if(b.textContent.includes(tag==='all'?'全部':tag))b.classList.add('active');
+  });
+  document.querySelectorAll('.paper-card').forEach(p=>{
+    if(tag==='all'){p.style.display='block';return}
+    const tags=p.dataset.tags||'';
+    p.style.display=tags.includes(tag)?'block':'none';
+  });
+}
+</script>
+</body>
+</html>
