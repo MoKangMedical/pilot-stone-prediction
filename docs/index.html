@@ -1,109 +1,417 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pilot Stone Prediction - MoKangMedical</title>
-<meta name="description" content="AI-powered kidney stone formation risk prediction.">
-<meta property="og:title" content="Pilot Stone Prediction - MoKangMedical">
-<meta property="og:description" content="AI-powered kidney stone formation risk prediction.">
+<title>PilotStone - 飞行员尿石症AI风险评估系统</title>
+<meta name="description" content="基于AI的飞行员尿石症风险智能评估系统，整合职业特征、代谢指标、综合健康三维度数据，精准预测结石风险。">
+<meta property="og:title" content="PilotStone - 飞行员尿石症AI风险评估系统">
+<meta property="og:description" content="三维风险评估 · 20+临床指标 · 5分钟完成评估 · 个性化健康管理">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mokangmedical.github.io/pilot-stone-prediction/">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1f3e5;</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--p:#78716c;--bg:#0a0a0f;--s:#12121a;--t:#e2e8f0;--m:#94a3b8;--b:rgba(255,255,255,.06)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t);line-height:1.6}
+:root{--p:#0ea5e9;--bg:#080b12;--s:#0f1520;--card:#111827;--t:#f1f5f9;--m:#94a3b8;--b:rgba(255,255,255,.06);--accent:#38bdf8;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
 a{color:var(--p);text-decoration:none}
-.nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,15,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--b);z-index:1000;padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.nb{font-size:1.2rem;font-weight:700;color:var(--p)}
-.nl{display:flex;gap:1.5rem;align-items:center}
-.nl a{color:var(--m);font-size:.85rem;transition:color .2s}
-.nl a:hover{color:var(--t)}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#78716c15,transparent 70%)}
-.hc{position:relative;max-width:800px}
-.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,#fff,#78716c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
-.sub{font-size:1.3rem;color:var(--m);margin-bottom:2rem}
-.cat{display:inline-block;padding:.4rem 1rem;background:#78716c22;border:1px solid #78716c44;border-radius:999px;font-size:.8rem;color:var(--p);margin-bottom:2rem}
-.btn{display:inline-block;padding:.8rem 2rem;background:var(--p);color:#fff;border-radius:8px;font-weight:600;transition:all .2s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px #78716c40}
-.bo{display:inline-block;padding:.6rem 1.5rem;border:1px solid var(--p);color:var(--p);border-radius:8px;font-weight:500;transition:all .2s}
-.bo:hover{background:var(--p);color:#fff}
-.sec{padding:5rem 2rem;max-width:1200px;margin:0 auto}
-.st{text-align:center;font-size:2.2rem;font-weight:700;margin-bottom:.5rem}
-.ss{text-align:center;color:var(--m);margin-bottom:3rem}
-.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.fc{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:2rem;transition:all .3s}
-.fc:hover{border-color:#78716c40;transform:translateY(-4px)}
-.fi{width:40px;height:40px;background:#78716c20;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem}
-.fc h3{font-size:1.1rem;margin-bottom:.5rem}
-.fc p{color:var(--m);font-size:.9rem}
-.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem}
-.pc{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:2rem;text-align:center;transition:all .3s}
-.pc:hover{border-color:#78716c40}
-.pr{font-size:2.5rem;font-weight:800;color:var(--p);margin:1rem 0}
-.pc p{color:var(--m);margin-bottom:1.5rem}
-.cta{text-align:center;padding:5rem 2rem;background:linear-gradient(135deg,#78716c10,transparent)}
-footer{text-align:center;padding:2rem;color:var(--m);font-size:.8rem;border-top:1px solid var(--b)}
-footer a{color:var(--m)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin:3rem 0}
-.stat{text-align:center}
-.stat .num{font-size:2.5rem;font-weight:800;color:var(--p)}
-.stat .lbl{color:var(--m);font-size:.85rem}
-@media(max-width:768px){.nl{display:none}.fg,.pg{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,18,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);z-index:1000;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem;color:var(--t)}
+.nav-brand svg{width:28px;height:28px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--m);font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--t)}
+.nav-links .github-btn{padding:.4rem 1rem;background:rgba(255,255,255,.08);border-radius:6px;font-size:.8rem}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(14,165,233,.12) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1.2rem;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);border-radius:999px;font-size:.8rem;color:var(--accent);margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.2rem,5.5vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:1rem;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:1.2rem;color:var(--m);max-width:600px;margin:0 auto 2.5rem}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:var(--p);color:#fff;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .25s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(14,165,233,.35)}
+.btn-outline{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border:1px solid rgba(14,165,233,.4);color:var(--accent);border-radius:8px;font-weight:500;font-size:.95rem;transition:all .25s}
+.btn-outline:hover{background:rgba(14,165,233,.1)}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--b);border-top:1px solid var(--b);border-bottom:1px solid var(--b)}
+.stat-item{background:var(--s);text-align:center;padding:2rem 1rem}
+.stat-num{font-size:2rem;font-weight:800;color:var(--accent)}
+.stat-label{font-size:.8rem;color:var(--m);margin-top:.3rem}
+
+/* SECTIONS */
+.section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+.section-title{font-size:2rem;font-weight:700;text-align:center;margin-bottom:.5rem}
+.section-desc{text-align:center;color:var(--m);max-width:600px;margin:0 auto 3rem}
+
+/* FEATURES */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.feature-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem;transition:all .3s}
+.feature-card:hover{border-color:rgba(14,165,233,.3);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.2rem}
+.fi-blue{background:rgba(14,165,233,.15);color:var(--p)}
+.fi-green{background:rgba(34,197,94,.15);color:var(--green)}
+.fi-yellow{background:rgba(234,179,8,.15);color:var(--yellow)}
+.fi-red{background:rgba(239,68,68,.15);color:var(--red)}
+.fi-purple{background:rgba(168,85,247,.15);color:var(--purple)}
+.feature-card h3{font-size:1.1rem;margin-bottom:.5rem}
+.feature-card p{color:var(--m);font-size:.9rem}
+
+/* HOW IT WORKS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;margin-top:2rem}
+.step{text-align:center;position:relative}
+.step-num{width:48px;height:48px;border-radius:50%;background:rgba(14,165,233,.12);color:var(--accent);font-size:1.2rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;border:2px solid rgba(14,165,233,.3)}
+.step h4{font-size:1rem;margin-bottom:.5rem}
+.step p{color:var(--m);font-size:.85rem}
+
+/* RISK LEVELS */
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.risk-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem;border-left:4px solid}
+.risk-card.low{border-left-color:var(--green)}
+.risk-card.medium{border-left-color:var(--yellow)}
+.risk-card.high{border-left-color:var(--red)}
+.risk-card.critical{border-left-color:var(--purple)}
+.risk-card h4{font-size:1rem;margin-bottom:.3rem}
+.risk-score{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
+.risk-card p{color:var(--m);font-size:.85rem}
+
+/* CALCULATOR PREVIEW */
+.calc-preview{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:2.5rem;margin-top:2rem}
+.calc-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.form-group label{display:block;font-size:.8rem;color:var(--m);margin-bottom:.5rem}
+.form-group input,.form-group select{width:100%;padding:.7rem;background:var(--bg);border:1px solid var(--b);border-radius:8px;color:var(--t);font-size:.9rem}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--p)}
+.calc-result{margin-top:2rem;padding:2rem;background:var(--bg);border-radius:12px;text-align:center;display:none}
+.calc-result.show{display:block}
+.risk-gauge{width:180px;height:90px;margin:0 auto 1rem;position:relative}
+.risk-gauge-bg{width:180px;height:90px;border-radius:90px 90px 0 0;background:conic-gradient(var(--green) 0deg,var(--yellow) 90deg,var(--red) 180deg);position:relative;overflow:hidden}
+.risk-gauge-mask{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:60px;background:var(--card);border-radius:60px 60px 0 0}
+.risk-gauge-needle{position:absolute;bottom:0;left:50%;width:3px;height:70px;background:var(--t);transform-origin:bottom center;transition:transform 1s ease;border-radius:2px}
+.risk-value{font-size:2.5rem;font-weight:800;margin-bottom:.5rem}
+.risk-label{font-size:.9rem;color:var(--m)}
+
+/* CTA */
+.cta-section{text-align:center;padding:5rem 2rem;background:linear-gradient(180deg,transparent,rgba(14,165,233,.05))}
+.cta-section h2{font-size:2rem;font-weight:700;margin-bottom:1rem}
+.cta-section p{color:var(--m);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+
+/* FOOTER */
+footer{border-top:1px solid var(--b);padding:3rem 2rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.footer-links a{color:var(--m);font-size:.85rem}
+.footer-links a:hover{color:var(--t)}
+footer p{color:#525252;font-size:.8rem}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:2rem}
+  .calc-form{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
+
 <nav class="nav">
-<a href="https://mokangmedical.github.io/opc-homepage/" class="nb">MoKangMedical</a>
-<div class="nl">
-<a href="#features">Features</a>
-<a href="#pricing">Pricing</a>
-<a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
-<a href="https://mokangmedical.github.io/opc-homepage/">Ecosystem</a>
-</div>
+  <a href="index.html" class="nav-brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    PilotStone
+  </a>
+  <div class="nav-links">
+    <a href="#features">功能特性</a>
+    <a href="#calculator">风险评估</a>
+    <a href="features.html">详细功能</a>
+    <a href="pricing.html">定价方案</a>
+    <a href="about.html">关于我们</a>
+    <a href="research.html">研究论文</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="github-btn">GitHub</a>
+  </div>
 </nav>
+
+<!-- HERO -->
 <section class="hero">
-<div class="hc">
-<span class="cat">Clinical AI</span>
-<h1>Pilot Stone Prediction</h1>
-<p class="sub">Kidney Stone Risk Prediction</p>
-<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-<a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="btn">View on GitHub</a>
-<a href="#features" class="bo">Explore Features</a>
-</div>
-</div>
+  <div style="position:relative">
+    <div class="hero-badge">Clinical AI System</div>
+    <h1>飞行员尿石症<br>AI风险评估系统</h1>
+    <p class="hero-sub">基于机器学习的三维风险评估模型，整合20+项临床指标，5分钟生成个性化风险报告</p>
+    <div class="hero-btns">
+      <a href="#calculator" class="btn-primary">开始风险评估</a>
+      <a href="features.html" class="btn-outline">了解功能</a>
+    </div>
+  </div>
 </section>
-<section class="sec" id="features">
-<h2 class="st">Capabilities</h2>
-<p class="ss">AI-powered kidney stone formation risk prediction.</p>
-<div class="fg"><div class="fc"><div class="fi">◆</div><h3>Risk Calculator</h3><p>Advanced risk calculator capabilities powered by AI</p></div><div class="fc"><div class="fi">◇</div><h3>Metabolic Panel</h3><p>Advanced metabolic panel capabilities powered by AI</p></div><div class="fc"><div class="fi">◈</div><h3>Recurrence Prediction</h3><p>Advanced recurrence prediction capabilities powered by AI</p></div><div class="fc"><div class="fi">◉</div><h3>Diet Recommendations</h3><p>Advanced diet recommendations capabilities powered by AI</p></div><div class="fc"><div class="fi">◊</div><h3>Imaging Analysis</h3><p>Advanced imaging analysis capabilities powered by AI</p></div><div class="fc"><div class="fi">○</div><h3>Patient Dashboard</h3><p>Advanced patient dashboard capabilities powered by AI</p></div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">20+</div><div class="stat-label">临床指标</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">评估维度</div></div>
+  <div class="stat-item"><div class="stat-num">5min</div><div class="stat-label">评估时间</div></div>
+  <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">预测准确率</div></div>
 </div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <h2 class="section-title">核心功能</h2>
+  <p class="section-desc">专为飞行员设计的尿石症风险评估系统，覆盖职业、代谢、健康三大维度</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon fi-blue">🛡</div>
+      <h3>三维风险评估</h3>
+      <p>职业特征、代谢指标、综合健康三维度全面评估，加权计算综合风险分数</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-green">📊</div>
+      <h3>代谢面板分析</h3>
+      <p>尿酸、钙磷比、尿液比重、草酸盐等20+项代谢指标智能分析</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-yellow">✈</div>
+      <h3>飞行因素评估</h3>
+      <p>飞行时长、高空巡航比例、驾驶舱温度、时区飞行等职业因素量化</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-red">📋</div>
+      <h3>个性化建议</h3>
+      <p>根据评估结果生成16+条个性化健康建议，涵盖饮食、运动、饮水等</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-purple">📄</div>
+      <h3>PDF报告导出</h3>
+      <p>一键生成医疗级PDF评估报告，支持打印和归档</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-blue">🔬</div>
+      <h3>研究论文库</h3>
+      <p>整合PubMed最新肾结石研究论文，支持关键词、标签、年份筛选</p>
+    </div>
+  </div>
 </section>
-<section class="sec" id="pricing">
-<h2 class="st">Pricing</h2>
-<p class="ss">Flexible plans for every scale</p>
-<div class="pg">
-<div class="pc"><h3>Starter</h3><div class="pr">Free</div><p>Basic features and community support</p><a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="bo">Get Started</a></div>
-<div class="pc"><h3>Professional</h3><div class="pr">$299/mo</div><p>Full access with priority support</p><a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="bo">Start Trial</a></div>
-<div class="pc"><h3>Enterprise</h3><div class="pr">Custom</div><p>Custom deployment with SLA</p><a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="bo">Contact Sales</a></div>
-</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:var(--s);max-width:100%;padding:5rem 2rem">
+  <div style="max-width:1100px;margin:0 auto">
+    <h2 class="section-title">评估流程</h2>
+    <p class="section-desc">四步完成全面风险评估</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>填写个人信息</h4>
+        <p>姓名、性别、年龄、飞行员编号等基本信息</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>录入职业特征</h4>
+        <p>飞行时长、机型、高空巡航比例等职业数据</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>输入代谢指标</h4>
+        <p>尿酸、钙、磷、血糖等20+项检验指标</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>查看评估报告</h4>
+        <p>三维风险分数、风险等级、个性化建议</p>
+      </div>
+    </div>
+  </div>
 </section>
-<section class="cta">
-<h2>Ready to get started?</h2>
-<p style="color:var(--m);margin-bottom:2rem">Join leading organizations using Pilot Stone Prediction</p>
-<a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="btn">Get Started Free</a>
+
+<!-- RISK LEVELS -->
+<section class="section">
+  <h2 class="section-title">风险等级划分</h2>
+  <p class="section-desc">四级风险评估体系，精准识别风险程度</p>
+  <div class="risk-grid">
+    <div class="risk-card low">
+      <h4>低风险</h4>
+      <div class="risk-score" style="color:var(--green)">< 20%</div>
+      <p>保持良好习惯，定期体检，建议每年复查一次</p>
+    </div>
+    <div class="risk-card medium">
+      <h4>中等风险</h4>
+      <div class="risk-score" style="color:var(--yellow)">20-50%</div>
+      <p>关注高风险指标，调整生活习惯，半年复查一次</p>
+    </div>
+    <div class="risk-card high">
+      <h4>高风险</h4>
+      <div class="risk-score" style="color:var(--red)">50-80%</div>
+      <p>建议就医检查，制定干预方案，三个月复查一次</p>
+    </div>
+    <div class="risk-card critical">
+      <h4>极高风险</h4>
+      <div class="risk-score" style="color:var(--purple)">> 80%</div>
+      <p>立即就医，暂停飞行任务，制定紧急干预方案</p>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="section" id="calculator">
+  <h2 class="section-title">快速风险评估</h2>
+  <p class="section-desc">输入关键指标，快速获得风险评估结果</p>
+  <div class="calc-preview">
+    <div class="calc-form">
+      <div class="form-group">
+        <label>性别</label>
+        <select id="calcGender">
+          <option value="male">男</option>
+          <option value="female">女</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>年龄</label>
+        <input type="number" id="calcAge" value="35" min="20" max="65">
+      </div>
+      <div class="form-group">
+        <label>平均单次飞行时长 (小时)</label>
+        <input type="number" id="calcFlight" value="3.5" min="0.5" max="15" step="0.5">
+      </div>
+      <div class="form-group">
+        <label>年度飞行时间 (小时)</label>
+        <input type="number" id="calcAnnual" value="800" min="100" max="1200">
+      </div>
+      <div class="form-group">
+        <label>高空巡航比例 (%)</label>
+        <input type="number" id="calcAltitude" value="70" min="0" max="100">
+      </div>
+      <div class="form-group">
+        <label>尿酸 (μmol/L)</label>
+        <input type="number" id="calcUricAcid" value="380" min="50" max="800">
+      </div>
+      <div class="form-group">
+        <label>每日饮水量 (ml)</label>
+        <input type="number" id="calcWater" value="2000" min="500" max="5000">
+      </div>
+      <div class="form-group">
+        <label>每周运动时间 (分钟)</label>
+        <input type="number" id="calcExercise" value="60" min="0" max="600">
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem">
+      <button onclick="calculateRisk()" class="btn-primary" style="border:none;cursor:pointer;font-size:1rem">计算风险</button>
+    </div>
+    <div class="calc-result" id="calcResult">
+      <div class="risk-gauge">
+        <div class="risk-gauge-bg">
+          <div class="risk-gauge-mask"></div>
+          <div class="risk-gauge-needle" id="gaugeNeedle"></div>
+        </div>
+      </div>
+      <div class="risk-value" id="riskValue">--</div>
+      <div class="risk-label" id="riskLabel">请填写信息后计算</div>
+    </div>
+  </div>
+</section>
+
+<!-- ACADEMIC -->
+<section class="section" style="background:var(--s);max-width:100%;padding:5rem 2rem">
+  <div style="max-width:1100px;margin:0 auto">
+    <h2 class="section-title">学术支撑</h2>
+    <p class="section-desc">基于国家发明专利的机器学习模型</p>
+    <div style="max-width:700px;margin:0 auto;background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem">
+      <div style="display:flex;align-items:flex-start;gap:1.5rem">
+        <div style="width:56px;height:56px;background:rgba(14,165,233,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">📄</div>
+        <div>
+          <h3 style="font-size:1.1rem;margin-bottom:.5rem">基于机器学习模型的肾结石预测并协助早筛方法</h3>
+          <p style="color:var(--m);font-size:.9rem;margin-bottom:.8rem">专利号: 2024116733167</p>
+          <p style="color:var(--m);font-size:.85rem">发明人: 张麟、史峰、朱南、孙楚迪</p>
+          <p style="color:var(--m);font-size:.85rem">申请人: 苏州工业园区蒙纳士科学技术研究院</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>守护飞行员健康，保障飞行安全</h2>
+  <p>基于AI的精准风险评估，为飞行员提供专业的健康管理方案</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <a href="#calculator" class="btn-primary">开始评估</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="btn-outline">查看源码</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<section style="text-align:center;padding:4rem 2rem;background:linear-gradient(135deg,rgba(99,102,241,.1),transparent)">
+<h2 style="font-size:1.8rem;margin-bottom:1rem">Ready to get started?</h2>
+<p style="color:#94a3b8;margin-bottom:2rem">Join leading organizations using pilot-stone-prediction</p>
+<a href="https://github.com/MoKangMedical/pilot-stone-prediction" style="display:inline-block;padding:.8rem 2rem;background:#6366f1;color:#fff;border-radius:8px;font-weight:600;text-decoration:none">Get Started Free</a>
 </section>
 <footer>
-<p>&copy; 2025 MoKangMedical. All rights reserved. | <a href="https://mokangmedical.github.io/opc-homepage/">Ecosystem</a> | <a href="https://github.com/MoKangMedical">GitHub</a></p>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://mokangmedical.github.io/opc-homepage/">OPC生态</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
+  <p>&copy; 2026 MoKangMedical. Part of OPC Ecosystem.</p>
 </footer>
+
 <script>
-// Scroll reveal animation
-const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.style.opacity='1';i.target.style.transform='translateY(0)';obs.unobserve(i.target)}})},{threshold:.1});
-document.querySelectorAll('.fc,.pc').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='all 0.6s ease';obs.observe(el)});
-// Counter animation
-document.querySelectorAll('.stat .num').forEach(el=>{const t=parseInt(el.dataset.val||0);let c=0;const s=t/60;const tm=setInterval(()=>{c+=s;if(c>=t){c=t;clearInterval(tm)}el.textContent=Math.floor(c).toLocaleString()},25)});
+function calculateRisk(){
+  const flightHours=parseFloat(document.getElementById('calcFlight').value)||3.5;
+  const annualHours=parseFloat(document.getElementById('calcAnnual').value)||800;
+  const altitude=parseFloat(document.getElementById('calcAltitude').value)||70;
+  const uricAcid=parseFloat(document.getElementById('calcUricAcid').value)||380;
+  const water=parseFloat(document.getElementById('calcWater').value)||2000;
+  const exercise=parseFloat(document.getElementById('calcExercise').value)||60;
+  const gender=document.getElementById('calcGender').value;
+
+  // Flight risk (simplified)
+  const flightRisk=Math.min(100,(flightHours/5+annualHours/900+altitude/100)/3*100);
+
+  // Metabolic risk (simplified)
+  const uricLimit=gender==='male'?428:357;
+  const uricRisk=Math.min(100,Math.max(0,(uricAcid-150)/(uricLimit-150)*100));
+
+  // Health risk (simplified)
+  const waterRisk=Math.max(0,Math.min(100,(1-water/3000)*100));
+  const exerciseRisk=Math.max(0,Math.min(100,(1-exercise/150)*100));
+  const healthRisk=(waterRisk+exerciseRisk)/2;
+
+  // Overall
+  const overall=Math.round(flightRisk*0.3+uricRisk*0.4+healthRisk*0.3);
+
+  // Display
+  const result=document.getElementById('calcResult');
+  const value=document.getElementById('riskValue');
+  const label=document.getElementById('riskLabel');
+  const needle=document.getElementById('gaugeNeedle');
+
+  result.classList.add('show');
+  value.textContent=overall+'%';
+
+  let riskText,riskColor;
+  if(overall<20){riskText='低风险';riskColor='var(--green)'}
+  else if(overall<50){riskText='中等风险';riskColor='var(--yellow)'}
+  else if(overall<80){riskText='高风险';riskColor='var(--red)'}
+  else{riskText='极高风险';riskColor='var(--purple)'}
+
+  value.style.color=riskColor;
+  label.textContent=riskText;
+
+  // Rotate needle (0-180 degrees)
+  const angle=Math.min(180,overall/100*180);
+  needle.style.transform='rotate('+angle+'deg)';
+}
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';obs.unobserve(e.target)}})
+},{threshold:.1});
+document.querySelectorAll('.feature-card,.step,.risk-card').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='all .6s ease';obs.observe(el)
+});
 </script>
 </body>
 </html>

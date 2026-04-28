@@ -1,84 +1,224 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>定价方案 - Stone Prediction</title><style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>定价方案 - PilotStone 飞行员尿石症AI风险评估</title>
+<meta name="description" content="PilotStone定价方案：免费社区版、专业版、企业定制版，满足不同规模团队需求。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>">
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e5e5e5;line-height:1.6}
-.nav{position:sticky;top:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:#0a0a0aee;backdrop-filter:blur(10px);border-bottom:1px solid #1a1a1a}
-.nav a{color:#a3a3a3;text-decoration:none;margin:0 0.8rem;font-size:0.9rem;transition:color 0.3s}
-.nav a:hover{color:#fff}
-.nav .brand{color:#fff;font-weight:700;font-size:1.1rem}
-.hero{padding:6rem 2rem 4rem;text-align:center;background:linear-gradient(135deg,#0a0a0a,#1a1a2e)}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#0ea5e9,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{color:#a3a3a3;max-width:700px;margin:1rem auto;font-size:1.15rem}
+:root{--p:#0ea5e9;--bg:#080b12;--s:#0f1520;--card:#111827;--t:#f1f5f9;--m:#94a3b8;--b:rgba(255,255,255,.06);--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,18,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);z-index:1000;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem;color:var(--t)}
+.nav-brand svg{width:28px;height:28px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--m);font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--t)}
+.hero{padding:8rem 2rem 4rem;text-align:center;background:linear-gradient(180deg,rgba(14,165,233,.06),transparent)}
+.hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--m);max-width:600px;margin:1rem auto 0;font-size:1.1rem}
 .container{max-width:1100px;margin:0 auto;padding:2rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;transition:all 0.3s}
-.card:hover{border-color:#0ea5e944;transform:translateY(-3px)}
-.card h3{color:#fff;margin-bottom:0.5rem;font-size:1.15rem}
-.card p{color:#a3a3a3;font-size:0.95rem}
-.card .icon{font-size:2rem;margin-bottom:1rem}
-.cta{display:inline-block;padding:0.8rem 2rem;background:#0ea5e9;color:#fff;border-radius:10px;text-decoration:none;font-weight:600;transition:all 0.3s}
-.cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px #0ea5e944}
-.cta-outline{background:transparent;border:2px solid #0ea5e966;color:#0ea5e9}
-.price-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
-.price-card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;text-align:center;transition:all 0.3s}
-.price-card.featured{border-color:#0ea5e9;transform:scale(1.03)}
-.price-card h3{color:#fff;margin-bottom:0.5rem}
-.price{font-size:2.2rem;font-weight:800;color:#0ea5e9;margin:0.8rem 0}
-.price span{font-size:0.9rem;color:#737373}
-.price-card ul{list-style:none;text-align:left;margin:1.5rem 0}
-.price-card li{padding:0.4rem 0;color:#a3a3a3;border-bottom:1px solid #1a1a1a;font-size:0.95rem}
-.price-card li::before{content:'✓ ';color:#0ea5e9}
-.section-title{text-align:center;font-size:2rem;margin-bottom:0.5rem;color:#fff}
-.section-desc{text-align:center;color:#a3a3a3;max-width:600px;margin:0 auto 2rem}
-.timeline{position:relative;padding-left:2rem}
-.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:#0ea5e944}
-.timeline-item{position:relative;margin-bottom:2rem;padding-left:1.5rem}
-.timeline-item::before{content:'';position:absolute;left:-2.35rem;top:0.5rem;width:12px;height:12px;border-radius:50%;background:#0ea5e9}
-.timeline-item h4{color:#fff;margin-bottom:0.3rem}
-.timeline-item p{color:#a3a3a3;font-size:0.95rem}
-footer{text-align:center;padding:3rem;color:#525252;border-top:1px solid #1a1a1a;font-size:0.85rem;margin-top:4rem}
-footer a{color:#0ea5e9;text-decoration:none}
-.stats{display:flex;justify-content:center;gap:3rem;padding:2rem;flex-wrap:wrap}
-.stat{text-align:center}
-.stat .num{font-size:2rem;font-weight:800;color:#0ea5e9}
-.stat .label{color:#737373;font-size:0.85rem}
-</style></head>
-<body><nav class="nav">
-<a class="brand" href="https://mokangmedical.github.io/opc-homepage/">MoKangMedical</a>
-<div>
-<a href="index.html">首页</a>
-<a href="features.html">功能</a>
-<a href="pricing.html">定价</a>
-<a href="about.html">关于</a>
-<a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
-</div>
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:3rem 0}
+.price-card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:2.5rem;text-align:center;transition:all .3s;position:relative}
+.price-card:hover{transform:translateY(-4px);border-color:rgba(14,165,233,.3)}
+.price-card.featured{border-color:var(--p);transform:scale(1.02);box-shadow:0 12px 40px rgba(14,165,233,.15)}
+.price-card.featured:hover{transform:scale(1.02) translateY(-4px)}
+.badge-popular{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--p);color:#fff;padding:.3rem 1rem;border-radius:999px;font-size:.75rem;font-weight:600}
+.price-card h3{font-size:1.2rem;margin-bottom:.5rem}
+.price{font-size:2.5rem;font-weight:800;color:var(--p);margin:1rem 0}
+.price span{font-size:.9rem;color:var(--m);font-weight:400}
+.price-desc{color:var(--m);font-size:.9rem;margin-bottom:1.5rem}
+.feature-list{list-style:none;text-align:left;margin:1.5rem 0}
+.feature-list li{padding:.5rem 0;color:var(--m);font-size:.9rem;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:.5rem}
+.feature-list li:last-child{border:none}
+.feature-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.cta-btn{display:inline-block;padding:.85rem 2rem;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .25s;width:100%}
+.cta-primary{background:var(--p);color:#fff}
+.cta-primary:hover{box-shadow:0 8px 25px rgba(14,165,233,.3)}
+.cta-outline{background:transparent;border:1px solid rgba(14,165,233,.4);color:var(--p)}
+.cta-outline:hover{background:rgba(14,165,233,.1)}
+.comparison-table{width:100%;border-collapse:collapse;margin:2rem 0;background:var(--card);border-radius:14px;overflow:hidden}
+.comparison-table th,.comparison-table td{padding:1rem;text-align:center;border-bottom:1px solid var(--b);font-size:.85rem}
+.comparison-table th{background:var(--s);color:var(--p);font-weight:600}
+.comparison-table th:first-child,.comparison-table td:first-child{text-align:left;color:var(--m)}
+.comparison-table td:first-child{font-weight:500;color:var(--t)}
+.check{color:var(--green)}
+.cross{color:var(--red)}
+.faq-section{margin:4rem 0}
+.faq-item{background:var(--card);border:1px solid var(--b);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.faq-q{padding:1.2rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:500}
+.faq-q::after{content:'+';font-size:1.2rem;color:var(--m);transition:transform .3s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{padding:0 1.5rem;max-height:0;overflow:hidden;transition:all .3s;color:var(--m);font-size:.9rem}
+.faq-item.open .faq-a{padding:0 1.5rem 1.2rem;max-height:200px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.5rem;margin:3rem 0}
+.stat-card{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:1.5rem;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--p)}
+.stat-card .label{color:var(--m);font-size:.8rem;margin-top:.3rem}
+footer{border-top:1px solid var(--b);padding:3rem 2rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.footer-links a{color:var(--m);font-size:.85rem}
+footer p{color:#525252;font-size:.8rem}
+@media(max-width:768px){.nav-links{display:none}.pricing-grid{grid-template-columns:1fr}.comparison-table{font-size:.75rem}.comparison-table th,.comparison-table td{padding:.6rem}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    PilotStone
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="index.html#calculator">风险评估</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
 </nav>
-<div class="hero"><h1>定价方案</h1><p>灵活的定价策略，满足不同规模团队需求</p></div>
+
+<section class="hero">
+  <h1>定价方案</h1>
+  <p>灵活的定价策略，满足不同规模团队需求</p>
+</section>
+
 <div class="container">
-<div class="price-cards">
-<div class="price-card">
-<h3>Starter</h3><div class="price">免费<span></span></div>
-<ul><li>基础功能完整</li><li>单用户使用</li><li>社区支持</li><li>5GB存储</li></ul>
-<a class="cta cta-outline" href="https://github.com/MoKangMedical/pilot-stone-prediction">开始使用</a>
+
+<!-- 定价卡片 -->
+<div class="pricing-grid">
+  <div class="price-card">
+    <h3>Starter</h3>
+    <div class="price">免费</div>
+    <p class="price-desc">适合个人飞行员和小型团队试用</p>
+    <ul class="feature-list">
+      <li>完整风险评估功能</li>
+      <li>三维风险分析</li>
+      <li>个性化健康建议</li>
+      <li>localStorage本地存储</li>
+      <li>社区支持</li>
+      <li>开源代码</li>
+    </ul>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="cta-btn cta-outline">开始使用</a>
+  </div>
+  <div class="price-card featured">
+    <div class="badge-popular">推荐</div>
+    <h3>Professional</h3>
+    <div class="price">¥999<span>/月</span></div>
+    <p class="price-desc">适合航空公司和健康管理机构</p>
+    <ul class="feature-list">
+      <li>全部Starter功能</li>
+      <li>PDF报告导出</li>
+      <li>历史数据管理</li>
+      <li>团队协作 (10人)</li>
+      <li>API接口调用</li>
+      <li>优先技术支持</li>
+      <li>100GB存储空间</li>
+    </ul>
+    <a href="mailto:contact@mokangmedical.com" class="cta-btn cta-primary">立即升级</a>
+  </div>
+  <div class="price-card">
+    <h3>Enterprise</h3>
+    <div class="price">定制</div>
+    <p class="price-desc">适合大型企业和定制化需求</p>
+    <ul class="feature-list">
+      <li>全部Professional功能</li>
+      <li>私有化部署</li>
+      <li>无限团队成员</li>
+      <li>专属客服经理</li>
+      <li>SLA保障</li>
+      <li>定制开发</li>
+      <li>培训服务</li>
+    </ul>
+    <a href="mailto:contact@mokangmedical.com" class="cta-btn cta-outline">商务洽谈</a>
+  </div>
 </div>
-<div class="price-card featured">
-<h3>Professional</h3><div class="price">¥999<span>/月</span></div>
-<ul><li>全部高级功能</li><li>10人团队</li><li>优先支持</li><li>100GB存储</li><li>API调用</li><li>高级分析</li></ul>
-<a class="cta" href="mailto:contact@mokangmedical.com">立即升级</a>
+
+<!-- 核心数据 -->
+<div class="stats-row">
+  <div class="stat-card"><div class="num">500+</div><div class="label">企业客户</div></div>
+  <div class="stat-card"><div class="num">99.9%</div><div class="label">可用性SLA</div></div>
+  <div class="stat-card"><div class="num">24/7</div><div class="label">技术支持</div></div>
+  <div class="stat-card"><div class="num">100GB</div><div class="label">存储空间</div></div>
 </div>
-<div class="price-card">
-<h3>Enterprise</h3><div class="price">定制<span></span></div>
-<ul><li>私有化部署</li><li>无限团队成员</li><li>专属客服</li><li>SLA保障</li><li>定制开发</li><li>培训服务</li></ul>
-<a class="cta cta-outline" href="mailto:contact@mokangmedical.com">商务洽谈</a>
+
+<!-- 功能对比 -->
+<h2 style="font-size:1.8rem;font-weight:700;text-align:center;margin:3rem 0 .5rem">功能对比</h2>
+<p style="text-align:center;color:var(--m);margin-bottom:2rem">详细了解各版本功能差异</p>
+
+<div style="overflow-x:auto">
+<table class="comparison-table">
+  <thead>
+    <tr><th>功能</th><th>Starter</th><th>Professional</th><th>Enterprise</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>风险评估</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+    <tr><td>三维风险分析</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+    <tr><td>个性化建议</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+    <tr><td>PDF报告导出</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+    <tr><td>历史数据管理</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+    <tr><td>团队协作</td><td class="cross">✗</td><td>10人</td><td>无限</td></tr>
+    <tr><td>API接口</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+    <tr><td>数据存储</td><td>本地</td><td>100GB</td><td>无限</td></tr>
+    <tr><td>技术支持</td><td>社区</td><td>优先</td><td>专属</td></tr>
+    <tr><td>私有化部署</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+    <tr><td>SLA保障</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+    <tr><td>定制开发</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+  </tbody>
+</table>
 </div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <h2 style="font-size:1.8rem;font-weight:700;text-align:center;margin:3rem 0 .5rem">常见问题</h2>
+  <p style="text-align:center;color:var(--m);margin-bottom:2rem">关于定价和服务的常见问题解答</p>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">免费版有什么限制？</div>
+    <div class="faq-a">免费版提供完整的风险评估功能，包括三维风险分析和个性化健康建议。主要限制是数据存储在浏览器本地，无法跨设备同步，也不支持PDF报告导出和团队协作功能。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">可以随时升级或降级吗？</div>
+    <div class="faq-a">是的，您可以随时升级到更高版本。升级后立即生效，费用按剩余天数比例计算。降级将在当前订阅周期结束后生效。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">支持哪些支付方式？</div>
+    <div class="faq-a">我们支持支付宝、微信支付、银行转账等主流支付方式。企业客户也可以选择对公转账和开具增值税发票。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">数据安全如何保障？</div>
+    <div class="faq-a">我们采用端到端加密，符合GDPR和HIPAA合规标准。免费版数据存储在浏览器本地，付费版数据加密存储在云端服务器，支持数据导出和删除。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">有免费试用期吗？</div>
+    <div class="faq-a">Professional版提供14天免费试用，无需信用卡。试用期结束后如不升级，将自动降级为免费版，数据不会丢失。</div>
+  </div>
 </div>
-<div class="stats" style="margin-top:3rem">
-<div class="stat"><div class="num">500+</div><div class="label">企业客户</div></div>
-<div class="stat"><div class="num">99.9%</div><div class="label">可用性SLA</div></div>
-<div class="stat"><div class="num">24/7</div><div class="label">技术支持</div></div>
+
+<!-- CTA -->
+<div style="text-align:center;padding:3rem 0">
+  <h2 style="font-size:1.8rem;font-weight:700;margin-bottom:1rem">开始使用PilotStone</h2>
+  <p style="color:var(--m);margin-bottom:2rem">免费版永久可用，付费版14天免费试用</p>
+  <a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="cta-btn cta-primary" style="display:inline-block;width:auto;padding:.85rem 2.5rem">开始免费使用</a>
 </div>
-</div><footer>
-<p>&copy; 2026 MoKangMedical. Part of <a href="https://mokangmedical.github.io/opc-homepage/">OPC Ecosystem</a>.</p>
-</footer></body></html>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://mokangmedical.github.io/opc-homepage/">OPC生态</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
+  <p>&copy; 2026 MoKangMedical. Part of OPC Ecosystem.</p>
+</footer>
+</body>
+</html>
