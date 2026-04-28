@@ -1,136 +1,109 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PilotStone 飞行员尿石症风险评估</title>
-<meta name="description" content="SUBPilotStone 飞行员尿石症风险评估">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pilot Stone Prediction - MoKangMedical</title>
+<meta name="description" content="AI-powered kidney stone formation risk prediction.">
+<meta property="og:title" content="Pilot Stone Prediction - MoKangMedical">
+<meta property="og:description" content="AI-powered kidney stone formation risk prediction.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mokangmedical.github.io/pilot-stone-prediction/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1f3e5;</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a1e;color:#e2e8f0;line-height:1.6}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;background:linear-gradient(135deg,#0ea5e922 0%,#0a0a1e 50%,#0ea5e911 100%);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at 30% 40%,#0ea5e915,transparent 60%),radial-gradient(circle at 70% 60%,#8b5cf610,transparent 60%)}
-.hero-c{position:relative;z-index:1;max-width:800px}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;margin-bottom:1rem;background:linear-gradient(135deg,#fff,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px}
-.hero p{font-size:1.2rem;color:rgba(255,255,255,0.7);margin-bottom:2rem}
-.cg{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.cb{padding:14px 32px;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s;border:none}
-.cp{background:linear-gradient(135deg,#0ea5e9,#8b5cf6);color:#fff;box-shadow:0 4px 20px #0ea5e940}
-.cp:hover{transform:translateY(-2px);box-shadow:0 8px 30px #0ea5e960}
-.cs{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2)}
-.cs:hover{background:rgba(255,255,255,0.15)}
-.section{padding:6rem 2rem;max-width:1200px;margin:0 auto}
-.st{text-align:center;font-size:2.2rem;font-weight:700;margin-bottom:1rem}
-.ss{text-align:center;color:rgba(255,255,255,0.6);margin-bottom:3rem;font-size:1.1rem}
+:root{--p:#78716c;--bg:#0a0a0f;--s:#12121a;--t:#e2e8f0;--m:#94a3b8;--b:rgba(255,255,255,.06)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t);line-height:1.6}
+a{color:var(--p);text-decoration:none}
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(10,10,15,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--b);z-index:1000;padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.nb{font-size:1.2rem;font-weight:700;color:var(--p)}
+.nl{display:flex;gap:1.5rem;align-items:center}
+.nl a{color:var(--m);font-size:.85rem;transition:color .2s}
+.nl a:hover{color:var(--t)}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#78716c15,transparent 70%)}
+.hc{position:relative;max-width:800px}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,#fff,#78716c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
+.sub{font-size:1.3rem;color:var(--m);margin-bottom:2rem}
+.cat{display:inline-block;padding:.4rem 1rem;background:#78716c22;border:1px solid #78716c44;border-radius:999px;font-size:.8rem;color:var(--p);margin-bottom:2rem}
+.btn{display:inline-block;padding:.8rem 2rem;background:var(--p);color:#fff;border-radius:8px;font-weight:600;transition:all .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px #78716c40}
+.bo{display:inline-block;padding:.6rem 1.5rem;border:1px solid var(--p);color:var(--p);border-radius:8px;font-weight:500;transition:all .2s}
+.bo:hover{background:var(--p);color:#fff}
+.sec{padding:5rem 2rem;max-width:1200px;margin:0 auto}
+.st{text-align:center;font-size:2.2rem;font-weight:700;margin-bottom:.5rem}
+.ss{text-align:center;color:var(--m);margin-bottom:3rem}
 .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.fc{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:2rem;transition:all .3s}
-.fc:hover{transform:translateY(-4px);border-color:#0ea5e9;box-shadow:0 8px 30px rgba(0,0,0,0.3)}
-.fc h3{font-size:1.1rem;margin-bottom:.5rem;color:#fff}
-.fc p{color:rgba(255,255,255,0.6);font-size:.9rem}
-.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:900px;margin:0 auto}
-.pc{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2.5rem;text-align:center;position:relative;transition:all .3s}
-.pc.popular{border-color:#0ea5e9;background:rgba(99,102,241,0.08)}
-.pb{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0ea5e9,#8b5cf6);color:#fff;padding:4px 20px;border-radius:20px;font-size:.8rem;font-weight:600}
-.pc h3{font-size:1.3rem;margin-bottom:.5rem}
-.pr{font-size:2rem;font-weight:800;color:#fff;margin:1rem 0}
-.pc p{color:rgba(255,255,255,0.6);margin-bottom:1.5rem}
-.pc .cb{width:100%;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);padding:12px;border-radius:10px}
-.pc.popular .cb{background:linear-gradient(135deg,#0ea5e9,#8b5cf6);border:none}
-.stats{display:flex;justify-content:center;gap:4rem;flex-wrap:wrap;padding:3rem 0}
+.fc{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:2rem;transition:all .3s}
+.fc:hover{border-color:#78716c40;transform:translateY(-4px)}
+.fi{width:40px;height:40px;background:#78716c20;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem}
+.fc h3{font-size:1.1rem;margin-bottom:.5rem}
+.fc p{color:var(--m);font-size:.9rem}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem}
+.pc{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:2rem;text-align:center;transition:all .3s}
+.pc:hover{border-color:#78716c40}
+.pr{font-size:2.5rem;font-weight:800;color:var(--p);margin:1rem 0}
+.pc p{color:var(--m);margin-bottom:1.5rem}
+.cta{text-align:center;padding:5rem 2rem;background:linear-gradient(135deg,#78716c10,transparent)}
+footer{text-align:center;padding:2rem;color:var(--m);font-size:.8rem;border-top:1px solid var(--b)}
+footer a{color:var(--m)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin:3rem 0}
 .stat{text-align:center}
-.sn{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#0ea5e9,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sl{color:rgba(255,255,255,0.5);font-size:.85rem;margin-top:.3rem}
-.cta-section{padding:4rem 2rem;text-align:center}
-footer{background:rgba(0,0,0,0.3);border-top:1px solid rgba(255,255,255,0.08);padding:3rem 2rem;text-align:center}
-.fl{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem}
-.fl a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:.85rem;transition:color .2s}
-.fl a:hover{color:#fff}
-.fc2{color:rgba(255,255,255,0.3);font-size:.8rem}
-@media(max-width:768px){.stats{gap:2rem}}
+.stat .num{font-size:2.5rem;font-weight:800;color:var(--p)}
+.stat .lbl{color:var(--m);font-size:.85rem}
+@media(max-width:768px){.nl{display:none}.fg,.pg{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
-<body style="padding-top:56px!important">
-<nav id="opc-nav" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(10,10,30,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(99,102,241,0.2);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-  <a href="https://mokangmedical.github.io/opc-homepage/" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:700;font-size:15px">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="url(#ng1)" stroke-width="2.5"/><path d="M10 16h12M16 10v12" stroke="url(#ng1)" stroke-width="2.5" stroke-linecap="round"/><defs><linearGradient id="ng1" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#c084fc"/></linearGradient></defs></svg>
-    <span style="background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent">MoKangMedical</span>
-  </a>
-  <div style="display:flex;gap:6px;align-items:center">
-    <a href="https://mokangmedical.github.io/opc-homepage/" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:8px">生态首页</a>
-    <a href="https://github.com/MoKangMedical" target="_blank" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:8px">GitHub</a>
-    <a href="https://mokangmedical.github.io/opc-alliance/" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:6px 16px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none">OPC Hub</a>
-  </div>
+<body>
+<nav class="nav">
+<a href="https://mokangmedical.github.io/opc-homepage/" class="nb">MoKangMedical</a>
+<div class="nl">
+<a href="#features">Features</a>
+<a href="#pricing">Pricing</a>
+<a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+<a href="https://mokangmedical.github.io/opc-homepage/">Ecosystem</a>
+</div>
 </nav>
-<nav style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(10,10,30,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(99,102,241,0.2);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between">
-  <a href="https://mokangmedical.github.io/opc-homepage/" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:700;font-size:15px">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="url(#ng1)" stroke-width="2.5"/><path d="M10 16h12M16 10v12" stroke="url(#ng1)" stroke-width="2.5" stroke-linecap="round"/><defs><linearGradient id="ng1" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#c084fc"/></linearGradient></defs></svg>
-    <span style="background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent">MoKangMedical</span>
-  </a>
-  <div style="display:flex;gap:6px;align-items:center">
-    <a href="https://mokangmedical.github.io/opc-homepage/" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:8px">生态首页</a>
-    <a href="https://github.com/MoKangMedical" target="_blank" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:8px">GitHub</a>
-    <a href="https://mokangmedical.github.io/opc-alliance/" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:6px 16px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none">OPC Hub</a>
-  </div>
-</nav>
-<div style="padding-top:56px"></div>
-
 <section class="hero">
-  <div class="hero-c">
-    <h1>PilotStone 飞行员尿石症风险评估</h1>
-    <p>SUBPilotStone 飞行员尿石症风险评估</p>
-    <div class="stats">
-      <div class="stat"><div class="sn">10K+</div><div class="sl">活跃用户</div></div>
-      <div class="stat"><div class="sn">50+</div><div class="sl">企业客户</div></div>
-      <div class="stat"><div class="sn">99.9%</div><div class="sl">系统可用性</div></div>
-    </div>
-    <div class="cg">
-      <button class="cb cp" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">立即体验</button>
-      <button class="cb cs" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">了解更多</button>
-    </div>
-  </div>
+<div class="hc">
+<span class="cat">Clinical AI</span>
+<h1>Pilot Stone Prediction</h1>
+<p class="sub">Kidney Stone Risk Prediction</p>
+<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+<a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="btn">View on GitHub</a>
+<a href="#features" class="bo">Explore Features</a>
+</div>
+</div>
 </section>
-
-<section class="section" id="features">
-  <h2 class="st">核心能力</h2>
-  <p class="ss">六大核心技术模块，覆盖全场景需求</p>
-  <div class="fg">
-        <div class="fc"><h3>风险评估模型</h3><p>多维度风险因子量化分析</p></div>
-        <div class="fc"><h3>AI预测引擎</h3><p>机器学习驱动的精准预测</p></div>
-        <div class="fc"><h3>健康报告生成</h3><p>个性化健康管理建议</p></div>
-        <div class="fc"><h3>航空合规检查</h3><p>符合CAAC/FAA体检标准</p></div>
-        <div class="fc"><h3>历史数据分析</h3><p>长期趋势追踪与预警</p></div>
-        <div class="fc"><h3>实时监控系统</h3><p>持续健康状态监测</p></div>
-
-  </div>
+<section class="sec" id="features">
+<h2 class="st">Capabilities</h2>
+<p class="ss">AI-powered kidney stone formation risk prediction.</p>
+<div class="fg"><div class="fc"><div class="fi">◆</div><h3>Risk Calculator</h3><p>Advanced risk calculator capabilities powered by AI</p></div><div class="fc"><div class="fi">◇</div><h3>Metabolic Panel</h3><p>Advanced metabolic panel capabilities powered by AI</p></div><div class="fc"><div class="fi">◈</div><h3>Recurrence Prediction</h3><p>Advanced recurrence prediction capabilities powered by AI</p></div><div class="fc"><div class="fi">◉</div><h3>Diet Recommendations</h3><p>Advanced diet recommendations capabilities powered by AI</p></div><div class="fc"><div class="fi">◊</div><h3>Imaging Analysis</h3><p>Advanced imaging analysis capabilities powered by AI</p></div><div class="fc"><div class="fi">○</div><h3>Patient Dashboard</h3><p>Advanced patient dashboard capabilities powered by AI</p></div>
+</div>
 </section>
-
-<section class="section" id="pricing" style="background:rgba(99,102,241,0.03);border-radius:32px;margin:0 1rem">
-  <h2 class="st">定价方案</h2>
-  <p class="ss">灵活定价，按需选择</p>
-  <div class="pg">
-      <div class="pc"><h3>基础版</h3><div class="pr">¥0</div><p>免费风险评估</p><button class="cb">开始使用</button></div>
-      <div class="pc popular"><div class="pb">最受欢迎</div><h3>专业版</h3><div class="pr">¥299/月</div><p>全面分析+报告</p><button class="cb">开始使用</button></div>
-      <div class="pc"><h3>航空企业版</h3><div class="pr">¥999/月</div><p>批量管理+合规</p><button class="cb">开始使用</button></div>
-
-  </div>
+<section class="sec" id="pricing">
+<h2 class="st">Pricing</h2>
+<p class="ss">Flexible plans for every scale</p>
+<div class="pg">
+<div class="pc"><h3>Starter</h3><div class="pr">Free</div><p>Basic features and community support</p><a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="bo">Get Started</a></div>
+<div class="pc"><h3>Professional</h3><div class="pr">$299/mo</div><p>Full access with priority support</p><a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="bo">Start Trial</a></div>
+<div class="pc"><h3>Enterprise</h3><div class="pr">Custom</div><p>Custom deployment with SLA</p><a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="bo">Contact Sales</a></div>
+</div>
 </section>
-
-<section class="cta-section">
-  <h2 style="font-size:2rem;font-weight:700;margin-bottom:1rem">准备好开始了吗？</h2>
-  <p style="color:rgba(255,255,255,0.6);margin-bottom:2rem">加入MoKangMedical生态，探索AI医疗的无限可能</p>
-  <button class="cb cp" onclick="window.open('https://github.com/MoKangMedical')">开始使用</button>
+<section class="cta">
+<h2>Ready to get started?</h2>
+<p style="color:var(--m);margin-bottom:2rem">Join leading organizations using Pilot Stone Prediction</p>
+<a href="https://github.com/MoKangMedical/pilot-stone-prediction" class="btn">Get Started Free</a>
 </section>
-
 <footer>
-  <div class="fl">
-    <a href="https://mokangmedical.github.io/tianyan/">天眼</a>
-    <a href="https://mokangmedical.github.io/PharmaSim/">PharmaSim</a>
-    <a href="https://mokangmedical.github.io/chronicdiseasemanagement/">ChroniCare</a>
-    <a href="https://mokangmedical.github.io/medichat-rd/">MediChat-RD</a>
-    <a href="https://mokangmedical.github.io/opc-homepage/">OPC生态</a>
-    <a href="https://github.com/MoKangMedical">GitHub</a>
-  </div>
-  <p class="fc2">&copy; 2026 MoKangMedical. All rights reserved.</p>
+<p>&copy; 2025 MoKangMedical. All rights reserved. | <a href="https://mokangmedical.github.io/opc-homepage/">Ecosystem</a> | <a href="https://github.com/MoKangMedical">GitHub</a></p>
 </footer>
+<script>
+// Scroll reveal animation
+const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.style.opacity='1';i.target.style.transform='translateY(0)';obs.unobserve(i.target)}})},{threshold:.1});
+document.querySelectorAll('.fc,.pc').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='all 0.6s ease';obs.observe(el)});
+// Counter animation
+document.querySelectorAll('.stat .num').forEach(el=>{const t=parseInt(el.dataset.val||0);let c=0;const s=t/60;const tm=setInterval(()=>{c+=s;if(c>=t){c=t;clearInterval(tm)}el.textContent=Math.floor(c).toLocaleString()},25)});
+</script>
 </body>
 </html>
