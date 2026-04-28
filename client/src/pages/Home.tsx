@@ -1,342 +1,260 @@
-import { useAuth } from "@/_core/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getLoginUrl } from "@/const";
-import { ResearchGallery } from "@/components/ResearchGallery";
-import { 
-  Activity, Plane, FlaskConical, Heart, Calculator, 
-  FileText, Settings, ArrowRight, Shield, Clock,
-  Database, Zap, Users, BarChart3, Compass, Gauge, Wind, Globe
+import { useState, useEffect } from "react";
+import { Link } from "wouter";
+import {
+  Shield, Activity, FileText, BookOpen, ChevronRight,
+  Plane, Heart, Droplets, Brain, BarChart3, Users,
+  CheckCircle, ArrowRight, Globe, Award, Zap
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+const stats = [
+  { label: "研究论文", value: "6+", icon: BookOpen },
+  { label: "风险指标", value: "20+", icon: Activity },
+  { label: "评估维度", value: "3", icon: BarChart3 },
+  { label: "个性化建议", value: "16+", icon: Heart },
+];
+
+const features = [
+  {
+    icon: Shield,
+    title: "三维风险评估",
+    desc: "职业特征、代谢指标、综合健康三维度全面评估飞行员尿石症风险",
+    color: "text-blue-600",
+    bg: "bg-blue-50",
+  },
+  {
+    icon: Activity,
+    title: "AI驱动预测",
+    desc: "基于机器学习模型，整合20+项临床指标，精准预测结石风险",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
+  },
+  {
+    icon: FileText,
+    title: "医疗级报告",
+    desc: "自动生成专业PDF评估报告，包含风险分析和个性化健康建议",
+    color: "text-purple-600",
+    bg: "bg-purple-50",
+  },
+  {
+    icon: BookOpen,
+    title: "全球研究前沿",
+    desc: "整合PubMed最新研究论文，追踪全球肾结石预防和治疗进展",
+    color: "text-amber-600",
+    bg: "bg-amber-50",
+  },
+  {
+    icon: Globe,
+    title: "飞行员专属",
+    desc: "针对高空飞行环境、脱水风险、特殊饮食等飞行员特有因素设计",
+    color: "text-rose-600",
+    bg: "bg-rose-50",
+  },
+  {
+    icon: Zap,
+    title: "即时评估",
+    desc: "5分钟完成全部评估，实时计算风险分数，立即获取健康建议",
+    color: "text-cyan-600",
+    bg: "bg-cyan-50",
+  },
+];
+
+const riskFactors = [
+  { icon: Droplets, label: "脱水风险", desc: "驾驶舱低湿度环境导致体液流失" },
+  { icon: Plane, label: "高空暴露", desc: "长时间高空巡航影响代谢平衡" },
+  { icon: Brain, label: "工作压力", desc: "高强度飞行任务增加代谢负担" },
+  { icon: Heart, label: "饮食限制", desc: "航空餐营养结构和盐分摄入" },
+];
 
 export default function Home() {
-  const { user, loading, isAuthenticated, logout } = useAuth();
+  const [isVisible, setIsVisible] = useState(false);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="loading-spinner w-12 h-12" />
-      </div>
-    );
-  }
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 relative overflow-hidden">
-      {/* 飞行员主题背景装饰 */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* 飞行路线装饰 */}
-        <svg className="absolute top-20 right-10 w-64 h-64 opacity-5" viewBox="0 0 200 200">
-          <path d="M 10 50 Q 100 20, 190 80" stroke="#0052cc" strokeWidth="2" fill="none" />
-          <circle cx="10" cy="50" r="4" fill="#0052cc" />
-          <circle cx="190" cy="80" r="4" fill="#0052cc" />
-        </svg>
-        {/* 罗盘装饰 */}
-        <svg className="absolute bottom-32 left-10 w-48 h-48 opacity-5" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="45" stroke="#d4af37" strokeWidth="1" fill="none" />
-          <line x1="50" y1="10" x2="50" y2="20" stroke="#d4af37" strokeWidth="2" />
-          <line x1="50" y1="80" x2="50" y2="90" stroke="#d4af37" strokeWidth="2" />
-          <line x1="10" y1="50" x2="20" y2="50" stroke="#d4af37" strokeWidth="2" />
-          <line x1="80" y1="50" x2="90" y2="50" stroke="#d4af37" strokeWidth="2" />
-        </svg>
-      </div>
-      {/* Header */}
-      <header className="bg-gradient-to-r from-white via-blue-50/50 to-white/80 backdrop-blur-sm border-b border-blue-200 sticky top-0 z-50 shadow-sm">
-        <div className="container py-4">
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary via-blue-600 to-blue-700 flex items-center justify-center shadow-lg">
-                <Plane className="w-6 h-6 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                <Shield className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-blue-700 bg-clip-text text-transparent">飞行员结石风险评估系统</h1>
-                <p className="text-sm text-muted-foreground">✈️ 基于机器学习的肾结石风险预测</p>
-              </div>
+              <span className="font-bold text-gray-900">PilotStone</span>
+              <span className="text-xs text-gray-500 hidden sm:inline">飞行员结石风险评估</span>
             </div>
-            {isAuthenticated ? (
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground hidden md:inline">
-                  欢迎，{user?.name || "用户"}
-                </span>
-                <Button variant="outline" size="sm" onClick={() => logout()}>
-                  退出
+            <div className="flex items-center gap-4">
+              <Link href="/research">
+                <span className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer">研究论文</span>
+              </Link>
+              <Link href="/assessment">
+                <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                  开始评估
+                  <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
-              </div>
-            ) : (
-              <Button onClick={() => window.location.href = getLoginUrl()}>
-                登录
-              </Button>
-            )}
+              </Link>
+            </div>
           </div>
         </div>
-      </header>
+      </nav>
 
       {/* Hero Section */}
-      <section className="container py-12 md:py-20 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/10 to-blue-100 rounded-full text-primary text-sm font-medium mb-6 border border-primary/20">
-            <Plane className="w-4 h-4 animate-pulse" />
-            专业医疗级风险评估
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
-            守护飞行员健康<br />
-            <span className="bg-gradient-to-r from-primary via-blue-600 to-blue-700 bg-clip-text text-transparent">预防肾结石风险</span>
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            基于先进的机器学习算法，结合飞行员职业特征、代谢指标和综合健康数据，
-            提供科学、精准的肾结石风险评估与个性化健康建议。
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => window.location.href = "/assessment"} className="bg-gradient-to-r from-primary to-blue-700 hover:from-blue-700 hover:to-primary shadow-lg">
-              开始风险评估
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            {isAuthenticated && (
-              <Button size="lg" variant="outline" onClick={() => window.location.href = "/history"}>
-                查看历史记录
-              </Button>
-            )}
-          </div>
-        </div>
-      </section>
+      <section className="pt-32 pb-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+                <Award className="w-4 h-4" />
+                专利技术支撑 · 专利号 2024116733167
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                飞行员
+                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  尿石症风险
+                </span>
+                <br />智能评估系统
+              </h1>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                基于AI和机器学习，整合职业特征、代谢指标、综合健康三维度数据，
+                为飞行员提供精准的尿石症风险预测和个性化健康管理建议。
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/assessment">
+                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
+                    开始风险评估
+                    <ChevronRight className="w-5 h-5 ml-1" />
+                  </Button>
+                </Link>
+                <Link href="/research">
+                  <Button size="lg" variant="outline" className="text-lg px-8">
+                    查看研究论文
+                  </Button>
+                </Link>
+              </div>
 
-      {/* Features Grid */}
-      <section className="container py-12">
-        <div className="text-center mb-12">
-          <h3 className="text-2xl font-bold text-foreground mb-4">系统功能</h3>
-          <p className="text-muted-foreground">全方位的健康评估与数据管理</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-          <Card className="card-hover border-blue-200 hover:border-primary hover:shadow-lg transition-all">
-            <CardHeader>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-blue-100 flex items-center justify-center mb-4 border border-primary/20">
-                <Plane className="w-6 h-6 text-primary" />
-              </div>
-              <CardTitle className="text-lg">职业特征分析</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                采集飞行时长、高空巡航占比、跨时区飞行等职业相关数据，评估飞行因素对结石风险的影响。
-              </CardDescription>
-            </CardContent>
-          </Card>
-          
-          <Card className="card-hover border-blue-200 hover:border-primary hover:shadow-lg transition-all">
-            <CardHeader>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-blue-100 flex items-center justify-center mb-4 border border-primary/20">
-                <Wind className="w-6 h-6 text-primary" />
-              </div>
-              <CardTitle className="text-lg">代谢指标检测</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                全面分析血清草酸盐、尿酸、钙磷代谢等关键代谢指标，精准评估代谢风险。
-              </CardDescription>
-            </CardContent>
-          </Card>
-          
-          <Card className="card-hover border-blue-200 hover:border-primary hover:shadow-lg transition-all">
-            <CardHeader>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-blue-100 flex items-center justify-center mb-4 border border-primary/20">
-                <Compass className="w-6 h-6 text-primary" />
-              </div>
-              <CardTitle className="text-lg">综合健康评估</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                整合体脂率、血压、运动习惯、睡眠质量等多维度健康数据，全面评估健康状况。
-              </CardDescription>
-            </CardContent>
-          </Card>
-          
-          <Card className="card-hover border-blue-200 hover:border-primary hover:shadow-lg transition-all">
-            <CardHeader>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-blue-100 flex items-center justify-center mb-4 border border-primary/20">
-                <Calculator className="w-6 h-6 text-primary" />
-              </div>
-              <CardTitle className="text-lg">风险评分计算</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                运用机器学习算法综合分析，生成精准的风险评分和个性化健康建议。
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Assessment Process */}
-      <section className="container py-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold text-foreground mb-4">评估流程</h3>
-            <p className="text-muted-foreground">简单四步，完成专业风险评估</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { step: 1, icon: Users, title: "个人信息", desc: "填写基本信息" },
-              { step: 2, icon: Plane, title: "职业特征", desc: "录入飞行数据" },
-              { step: 3, icon: FlaskConical, title: "代谢指标", desc: "输入检测结果" },
-              { step: 4, icon: BarChart3, title: "风险报告", desc: "获取评估结果" },
-            ].map((item, index) => (
-              <div key={item.step} className="relative">
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <item.icon className="w-8 h-8 text-primary" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold">
-                    {item.step}
-                  </div>
-                  <h4 className="font-semibold mb-1">{item.title}</h4>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+              {/* Trust indicators */}
+              <div className="flex items-center gap-6 mt-8 text-sm text-gray-500">
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span>20+临床指标</span>
                 </div>
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-border -translate-x-1/2" />
-                )}
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span>医疗级报告</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span>数据安全</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Hero Visual */}
+            <div className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 rounded-3xl blur-3xl" />
+                <Card className="relative border-0 shadow-2xl">
+                  <CardContent className="p-8">
+                    <div className="text-center mb-6">
+                      <div className="inline-flex items-center gap-2 text-sm text-gray-500 mb-2">
+                        <Activity className="w-4 h-4" />
+                        风险评估示例
+                      </div>
+                      <div className="text-5xl font-bold text-blue-600 mb-2">23.5%</div>
+                      <div className="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+                        低风险
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-600">职业特征风险</span>
+                          <span className="font-medium">18%</span>
+                        </div>
+                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="h-full bg-blue-500 rounded-full" style={{ width: '18%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-600">代谢指标风险</span>
+                          <span className="font-medium">31%</span>
+                        </div>
+                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="h-full bg-amber-500 rounded-full" style={{ width: '31%' }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-600">综合健康风险</span>
+                          <span className="font-medium">21%</span>
+                        </div>
+                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="h-full bg-emerald-500 rounded-full" style={{ width: '21%' }} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-gray-100">
+                      <div className="grid grid-cols-2 gap-4 text-center">
+                        <div>
+                          <div className="text-2xl font-bold text-gray-900">6</div>
+                          <div className="text-xs text-gray-500">个性化建议</div>
+                        </div>
+                        <div>
+                          <div className="text-2xl font-bold text-gray-900">20+</div>
+                          <div className="text-xs text-gray-500">评估指标</div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-100 text-blue-600 mb-4">
+                  <stat.icon className="w-6 h-6" />
+                </div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                <div className="text-sm text-gray-500">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* System Features */}
-      <section className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-            <CardContent className="pt-6">
-              <Database className="w-10 h-10 mb-4" />
-              <h4 className="text-lg font-semibold mb-2">数据管理</h4>
-              <p className="text-blue-100">
-                完整记录每次评估数据，支持历史查询、数据导出和远端同步。
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white">
-            <CardContent className="pt-6">
-              <Zap className="w-10 h-10 mb-4" />
-              <h4 className="text-lg font-semibold mb-2">响应式设计</h4>
-              <p className="text-purple-100">
-                完美适配手机、平板和电脑，随时随地进行健康评估。
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white">
-            <CardContent className="pt-6">
-              <Shield className="w-10 h-10 mb-4" />
-              <h4 className="text-lg font-semibold mb-2">数据安全</h4>
-              <p className="text-green-100">
-                采用安全加密传输，保护您的健康数据隐私安全。
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* 全球飞行员结石研究 */}
-      <section className="container py-16">
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">全球飞行员结石研究</h2>
-          <p className="text-muted-foreground mb-6">查看全球范围内的飞行员肾结石研究数据和统计分析</p>
-          <Button 
-            size="lg"
-            onClick={() => window.location.href = "/research"}
-            className="gap-2"
-          >
-            <Globe className="w-5 h-5" />
-            查看全球研究数据
-          </Button>
-        </div>
-        <ResearchGallery />
-      </section>
-
-      {/* Quick Actions */}
-      {isAuthenticated && (
-        <section className="container py-12">
-          <div className="max-w-2xl mx-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle>快捷操作</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <Button 
-                    variant="outline" 
-                    className="h-auto py-4 flex-col gap-2"
-                    onClick={() => window.location.href = "/assessment"}
-                  >
-                    <Calculator className="w-6 h-6" />
-                    <span>新建评估</span>
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="h-auto py-4 flex-col gap-2"
-                    onClick={() => window.location.href = "/history"}
-                  >
-                    <FileText className="w-6 h-6" />
-                    <span>历史记录</span>
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="h-auto py-4 flex-col gap-2"
-                    onClick={() => window.location.href = "/settings"}
-                  >
-                    <Settings className="w-6 h-6" />
-                    <span>系统设置</span>
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="h-auto py-4 flex-col gap-2"
-                    onClick={() => window.location.href = "/settings"}
-                  >
-                    <Database className="w-6 h-6" />
-                    <span>API配置</span>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+      {/* Risk Factors */}
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              飞行员面临的独特风险
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              高空飞行环境带来特殊的健康挑战，尿石症是飞行员最常见的职业健康问题之一
+            </p>
           </div>
-        </section>
-      )}
-
-      {/* 全球研究论文部分 */}
-      <section className="py-16 bg-gradient-to-r from-blue-50 to-blue-100">
-        <div className="container">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold mb-2 flex items-center gap-2">
-                <FileText className="w-8 h-8 text-primary" />
-                全球结石研究论文
-              </h2>
-              <p className="text-muted-foreground">最新发表的肾结石预测、诊断和预防研究</p>
-            </div>
-            <a href="/papers">
-              <Button className="gap-2">
-                查看全部论文
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </a>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-base line-clamp-2">
-                    示例论文标题 {i}: 肾结石风险预测模型研究
-                  </CardTitle>
-                  <CardDescription>
-                    作者 {i} 等 • 2024年
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                    本研究基于大规模临床数据，建立了肾结石风险预测模型，特别针对飞行员群体的特殊风险因素进行了分析...
-                  </p>
-                  <a href="/papers">
-                    <Button variant="outline" size="sm" className="w-full">
-                      查看详情
-                    </Button>
-                  </a>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {riskFactors.map((factor) => (
+              <Card key={factor.label} className="border-0 shadow-md hover:shadow-lg transition-shadow">
+                <CardContent className="p-6 text-center">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-red-50 text-red-600 mb-4">
+                    <factor.icon className="w-7 h-7" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2">{factor.label}</h3>
+                  <p className="text-sm text-gray-600">{factor.desc}</p>
                 </CardContent>
               </Card>
             ))}
@@ -344,21 +262,94 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-white/50">
-        <div className="container py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <Activity className="w-5 h-5 text-primary" />
-              <span className="font-semibold">飞行员结石风险评估系统</span>
-            </div>
-            <p className="text-sm text-muted-foreground text-center">
-              本系统仅供参考，不能替代专业医疗诊断。如有健康问题，请及时咨询专业医生。
+      {/* Features */}
+      <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              全方位风险评估能力
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              融合临床医学、航空医学和人工智能，提供精准的风险预测和健康管理方案
             </p>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>© 2024</span>
-              <span>版本 1.0</span>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature) => (
+              <Card key={feature.title} className="border-0 shadow-md hover:shadow-xl transition-all duration-300 group">
+                <CardContent className="p-8">
+                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl ${feature.bg} ${feature.color} mb-6 group-hover:scale-110 transition-transform`}>
+                    <feature.icon className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Card className="border-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white overflow-hidden">
+            <CardContent className="p-12 text-center relative">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+              <div className="relative">
+                <h2 className="text-3xl font-bold mb-4">
+                  开始您的健康风险评估
+                </h2>
+                <p className="text-blue-100 text-lg mb-8 max-w-xl mx-auto">
+                  5分钟完成评估，获取专业的风险分析报告和个性化健康建议
+                </p>
+                <Link href="/assessment">
+                  <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10">
+                    立即开始评估
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 bg-gray-900 text-gray-400">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <span className="font-bold text-white">PilotStone</span>
+              </div>
+              <p className="text-sm">
+                基于AI的飞行员尿石症风险评估系统，
+                守护飞行员健康与飞行安全。
+              </p>
             </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">快速链接</h4>
+              <div className="space-y-2">
+                <Link href="/assessment"><div className="text-sm hover:text-white cursor-pointer">风险评估</div></Link>
+                <Link href="/research"><div className="text-sm hover:text-white cursor-pointer">研究论文</div></Link>
+                <Link href="/history"><div className="text-sm hover:text-white cursor-pointer">评估历史</div></Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">技术支撑</h4>
+              <div className="space-y-2 text-sm">
+                <p>专利号：2024116733167</p>
+                <p>发明名称：基于机器学习模型的肾结石预测并协助早筛方法</p>
+                <p>苏州工业园区蒙纳士科学技术研究院</p>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-8 text-center text-sm">
+            <p>© 2024 PilotStone. 飞行员尿石症风险评估系统. All rights reserved.</p>
           </div>
         </div>
       </footer>

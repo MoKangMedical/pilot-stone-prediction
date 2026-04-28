@@ -1,15 +1,9 @@
 import { useState, useMemo } from "react";
-import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
-import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { 
   User, Plane, FlaskConical, Heart, Calculator, 
@@ -24,12 +18,12 @@ import {
   RISK_LEVEL_CONFIG
 } from "@shared/assessment";
 import { performRiskAssessment } from "@/lib/riskCalculator";
+import { assessmentStore } from "@/lib/staticStore";
 import AssessmentResult from "@/components/AssessmentResult";
 
 type Step = "personal" | "flight" | "metabolic" | "health" | "result";
 
 export default function Assessment() {
-  const { user, loading: authLoading, isAuthenticated } = useAuth();
   const [currentStep, setCurrentStep] = useState<Step>("personal");
   const [showResult, setShowResult] = useState(false);
   
@@ -65,14 +59,7 @@ export default function Assessment() {
     suggestions: { title: string; content: string }[];
   } | null>(null);
   
-  const createAssessmentMutation = trpc.assessment.create.useMutation({
-    onSuccess: () => {
-      toast.success("评估记录已保存");
-    },
-    onError: (error) => {
-      toast.error(`保存失败: ${error.message}`);
-    },
-  });
+  const [isSaving, setIsSaving] = useState(false);
   
   const steps: { id: Step; label: string; icon: React.ReactNode }[] = [
     { id: "personal", label: "个人信息", icon: <User className="w-5 h-5" /> },
@@ -131,25 +118,26 @@ export default function Assessment() {
   };
   
   const handleSaveAssessment = async () => {
-    if (!assessmentResult || !isAuthenticated) return;
+    if (!assessmentResult) return;
     
-    await createAssessmentMutation.mutateAsync({
-      pilotName,
-      pilotCode: pilotCode || `P${Date.now()}`,
-      gender,
-      age,
-      flightDuration,
-      annualFlightHours,
-      aircraftType,
-      altitudeRatio,
-      timezoneFlights,
-      cockpitTemp,
-      diversions,
-      saltIntake,
-      metabolicData: metabolicData as MetabolicData,
-      healthData: healthData as HealthData,
-      ...assessmentResult,
-    });
+    setIsSaving(true);
+    try {
+      assessmentStore.create({
+        pilotName,
+        pilotCode: pilotCode || `P${Date.now()}`,
+        gender,
+        age,
+        flightData: { flightDuration, annualFlightHours, aircraftType, altitudeRatio, timezoneFlights, cockpitTemp, diversions, saltIntake },
+        metabolicData,
+        healthData,
+        ...assessmentResult,
+      });
+      toast.success("评估记录已保存");
+    } catch (error) {
+      toast.error("保存失败");
+    } finally {
+      setIsSaving(false);
+    }
   };
   
   const handleReset = () => {
@@ -203,18 +191,14 @@ export default function Assessment() {
                 <p className="text-sm text-muted-foreground">基于机器学习的肾结石风险预测</p>
               </div>
             </div>
-            {isAuthenticated ? (
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">欢迎，{user?.name || "用户"}</span>
-                <Button variant="outline" size="sm" onClick={() => window.location.href = "/history"}>
-                  历史记录
-                </Button>
-              </div>
-            ) : (
-              <Button onClick={() => window.location.href = getLoginUrl()}>
-                登录
-              </Button>
-            )}
+            <div className="flex items-center gap-4">
+              <a href="/history" className="text-sm text-muted-foreground hover:text-foreground">
+                历史记录
+              </a>
+              <a href="/" className="text-sm text-muted-foreground hover:text-foreground">
+                返回首页
+              </a>
+            </div>
           </div>
         </div>
       </header>
@@ -1197,8 +1181,8 @@ export default function Assessment() {
             result={assessmentResult}
             onSave={handleSaveAssessment}
             onReset={handleReset}
-            isSaving={createAssessmentMutation.isPending}
-            isAuthenticated={isAuthenticated}
+            isSaving={isSaving}
+            isAuthenticated={true}
           />
         )}
         
