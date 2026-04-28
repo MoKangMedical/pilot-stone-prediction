@@ -1,83 +1,311 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>文档 - Stone Prediction</title><style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>开发文档 - PilotStone 飞行员尿石症AI风险评估</title>
+<meta name="description" content="PilotStone开发文档：快速上手指南、API文档、部署方案。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>">
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e5e5e5;line-height:1.6}
-.nav{position:sticky;top:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:#0a0a0aee;backdrop-filter:blur(10px);border-bottom:1px solid #1a1a1a}
-.nav a{color:#a3a3a3;text-decoration:none;margin:0 0.8rem;font-size:0.9rem;transition:color 0.3s}
-.nav a:hover{color:#fff}
-.nav .brand{color:#fff;font-weight:700;font-size:1.1rem}
-.hero{padding:6rem 2rem 4rem;text-align:center;background:linear-gradient(135deg,#0a0a0a,#1a1a2e)}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#0ea5e9,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{color:#a3a3a3;max-width:700px;margin:1rem auto;font-size:1.15rem}
+:root{--p:#0ea5e9;--bg:#080b12;--s:#0f1520;--card:#111827;--t:#f1f5f9;--m:#94a3b8;--b:rgba(255,255,255,.06);--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,18,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);z-index:1000;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem;color:var(--t)}
+.nav-brand svg{width:28px;height:28px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--m);font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--t)}
+.hero{padding:8rem 2rem 4rem;text-align:center;background:linear-gradient(180deg,rgba(14,165,233,.06),transparent)}
+.hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--m);max-width:600px;margin:1rem auto 0;font-size:1.1rem}
 .container{max-width:1100px;margin:0 auto;padding:2rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;transition:all 0.3s}
-.card:hover{border-color:#0ea5e944;transform:translateY(-3px)}
-.card h3{color:#fff;margin-bottom:0.5rem;font-size:1.15rem}
-.card p{color:#a3a3a3;font-size:0.95rem}
-.card .icon{font-size:2rem;margin-bottom:1rem}
-.cta{display:inline-block;padding:0.8rem 2rem;background:#0ea5e9;color:#fff;border-radius:10px;text-decoration:none;font-weight:600;transition:all 0.3s}
-.cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px #0ea5e944}
-.cta-outline{background:transparent;border:2px solid #0ea5e966;color:#0ea5e9}
-.price-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
-.price-card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;text-align:center;transition:all 0.3s}
-.price-card.featured{border-color:#0ea5e9;transform:scale(1.03)}
-.price-card h3{color:#fff;margin-bottom:0.5rem}
-.price{font-size:2.2rem;font-weight:800;color:#0ea5e9;margin:0.8rem 0}
-.price span{font-size:0.9rem;color:#737373}
-.price-card ul{list-style:none;text-align:left;margin:1.5rem 0}
-.price-card li{padding:0.4rem 0;color:#a3a3a3;border-bottom:1px solid #1a1a1a;font-size:0.95rem}
-.price-card li::before{content:'✓ ';color:#0ea5e9}
-.section-title{text-align:center;font-size:2rem;margin-bottom:0.5rem;color:#fff}
-.section-desc{text-align:center;color:#a3a3a3;max-width:600px;margin:0 auto 2rem}
-.timeline{position:relative;padding-left:2rem}
-.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:#0ea5e944}
-.timeline-item{position:relative;margin-bottom:2rem;padding-left:1.5rem}
-.timeline-item::before{content:'';position:absolute;left:-2.35rem;top:0.5rem;width:12px;height:12px;border-radius:50%;background:#0ea5e9}
-.timeline-item h4{color:#fff;margin-bottom:0.3rem}
-.timeline-item p{color:#a3a3a3;font-size:0.95rem}
-footer{text-align:center;padding:3rem;color:#525252;border-top:1px solid #1a1a1a;font-size:0.85rem;margin-top:4rem}
-footer a{color:#0ea5e9;text-decoration:none}
-.stats{display:flex;justify-content:center;gap:3rem;padding:2rem;flex-wrap:wrap}
-.stat{text-align:center}
-.stat .num{font-size:2rem;font-weight:800;color:#0ea5e9}
-.stat .label{color:#737373;font-size:0.85rem}
-</style></head>
-<body><nav class="nav">
-<a class="brand" href="https://mokangmedical.github.io/opc-homepage/">MoKangMedical</a>
-<div>
-<a href="index.html">首页</a>
-<a href="features.html">功能</a>
-<a href="pricing.html">定价</a>
-<a href="about.html">关于</a>
-<a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
-</div>
+.section-title{font-size:1.8rem;font-weight:700;margin-bottom:.5rem}
+.section-desc{color:var(--m);margin-bottom:2.5rem;max-width:600px}
+.code-block{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:1.5rem;margin:1.5rem 0;overflow-x:auto}
+.code-block pre{font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.85rem;color:var(--m);line-height:1.8}
+.code-block .comment{color:#6b7280}
+.code-block .cmd{color:var(--green)}
+.code-block .flag{color:var(--yellow)}
+.code-block .string{color:var(--purple)}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:2rem 0}
+.doc-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem;transition:all .3s}
+.doc-card:hover{border-color:rgba(14,165,233,.3)}
+.doc-card h4{font-size:1rem;margin-bottom:.5rem;color:var(--p)}
+.doc-card p{color:var(--m);font-size:.85rem}
+.api-table{width:100%;border-collapse:collapse;margin:1.5rem 0;background:var(--card);border-radius:12px;overflow:hidden}
+.api-table th,.api-table td{padding:.8rem 1rem;text-align:left;border-bottom:1px solid var(--b);font-size:.85rem}
+.api-table th{background:var(--s);color:var(--p);font-weight:600}
+.api-table td:first-child{font-family:monospace;color:var(--green)}
+.api-table td:nth-child(2){color:var(--yellow)}
+.endpoint{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem}
+.endpoint-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.method{padding:.3rem .8rem;border-radius:6px;font-size:.75rem;font-weight:700;font-family:monospace}
+.method-get{background:rgba(34,197,94,.15);color:var(--green)}
+.method-post{background:rgba(14,165,233,.15);color:var(--p)}
+.endpoint-path{font-family:monospace;font-size:.9rem;color:var(--t)}
+.endpoint-desc{color:var(--m);font-size:.85rem;margin-bottom:1rem}
+.param-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.param-table th,.param-table td{padding:.5rem;text-align:left;border-bottom:1px solid var(--b)}
+.param-table th{color:var(--m);font-weight:500}
+footer{border-top:1px solid var(--b);padding:3rem 2rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.footer-links a{color:var(--m);font-size:.85rem}
+footer p{color:#525252;font-size:.8rem}
+@media(max-width:768px){.nav-links{display:none}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    PilotStone
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="index.html#calculator">风险评估</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
 </nav>
-<div class="hero"><h1>开发文档</h1><p>快速上手 Stone Prediction 的完整指南</p></div>
+
+<section class="hero">
+  <h1>开发文档</h1>
+  <p>快速上手 PilotStone 的完整指南</p>
+</section>
+
 <div class="container">
-<div class="card" style="max-width:800px;margin:0 auto">
-<h3>快速开始</h3>
-<pre style="background:#1a1a1a;padding:1rem;border-radius:8px;color:#a3a3a3;overflow-x:auto">
-# 克隆项目
-git clone https://github.com/MoKangMedical/pilot-stone-prediction.git
-cd pilot-stone-prediction
 
-# 安装依赖
-pip install -r requirements.txt
+<!-- 快速开始 -->
+<h2 class="section-title">快速开始</h2>
+<p class="section-desc">三步启动PilotStone本地开发环境</p>
 
-# 启动服务
-python main.py</pre>
+<div class="code-block">
+<pre><span class="comment"># 1. 克隆项目</span>
+<span class="cmd">git clone</span> <span class="string">https://github.com/MoKangMedical/pilot-stone-prediction.git</span>
+<span class="cmd">cd</span> pilot-stone-prediction
+
+<span class="comment"># 2. 安装依赖</span>
+<span class="cmd">pnpm</span> install
+
+<span class="comment"># 3. 启动开发服务器</span>
+<span class="cmd">pnpm</span> run dev
+
+<span class="comment"># 构建GitHub Pages静态版本</span>
+<span class="flag">BUILD_MODE=static</span> <span class="cmd">pnpm</span> build</pre>
 </div>
-<div class="grid" style="margin-top:2rem">
-<div class="card"><h3>安装指南</h3><p>详细的环境配置和安装步骤，支持Docker一键部署</p></div>
-<div class="card"><h3>API文档</h3><p>完整的RESTful API文档，包含请求示例和响应说明</p></div>
-<div class="card"><h3>配置说明</h3><p>所有配置项的详细说明和最佳实践推荐</p></div>
-<div class="card"><h3>部署指南</h3><p>生产环境部署方案，包括Docker、K8s和传统部署</p></div>
-<div class="card"><h3>常见问题</h3><p>FAQ和Troubleshooting，快速解决常见问题</p></div>
-<div class="card"><h3>更新日志</h3><p>版本更新记录，新功能介绍和Breaking Changes</p></div>
+
+<!-- 文档模块 -->
+<div class="doc-grid">
+  <div class="doc-card">
+    <h4>安装指南</h4>
+    <p>详细的环境配置和安装步骤，支持Node.js 18+、pnpm包管理器</p>
+  </div>
+  <div class="doc-card">
+    <h4>API文档</h4>
+    <p>完整的tRPC API文档，类型安全的RPC调用</p>
+  </div>
+  <div class="doc-card">
+    <h4>配置说明</h4>
+    <p>环境变量配置、数据库连接、构建模式等配置项说明</p>
+  </div>
+  <div class="doc-card">
+    <h4>部署指南</h4>
+    <p>GitHub Pages、Vercel、Docker多种部署方案</p>
+  </div>
+  <div class="doc-card">
+    <h4>算法详解</h4>
+    <p>三维风险评估算法的详细说明和计算公式</p>
+  </div>
+  <div class="doc-card">
+    <h4>更新日志</h4>
+    <p>版本更新记录，新功能介绍和Breaking Changes</p>
+  </div>
 </div>
-</div><footer>
-<p>&copy; 2026 MoKangMedical. Part of <a href="https://mokangmedical.github.io/opc-homepage/">OPC Ecosystem</a>.</p>
-</footer></body></html>
+
+<!-- 项目结构 -->
+<h2 class="section-title" style="margin-top:3rem">项目结构</h2>
+<p class="section-desc">模块化架构设计</p>
+
+<div class="code-block">
+<pre>pilot-stone-prediction/
+├── client/                    <span class="comment"># 前端应用 (React 19 + TypeScript)</span>
+│   ├── src/
+│   │   ├── pages/            <span class="comment"># 页面组件</span>
+│   │   │   ├── Assessment.tsx <span class="comment"># 风险评估页面</span>
+│   │   │   ├── History.tsx    <span class="comment"># 历史记录页面</span>
+│   │   │   ├── Papers.tsx     <span class="comment"># 研究论文页面</span>
+│   │   │   └── Research.tsx   <span class="comment"># 研究数据页面</span>
+│   │   ├── components/       <span class="comment"># UI组件</span>
+│   │   │   ├── MetabolicForm.tsx    <span class="comment"># 代谢指标表单</span>
+│   │   │   ├── AssessmentResult.tsx <span class="comment"># 评估结果展示</span>
+│   │   │   └── PrintReport.tsx      <span class="comment"># PDF报告生成</span>
+│   │   └── lib/              <span class="comment"># 工具库</span>
+│   └── index.html
+├── server/                    <span class="comment"># 后端服务 (Node.js + Express)</span>
+│   ├── riskCalculator.ts     <span class="comment"># 核心风险计算引擎</span>
+│   ├── reportGenerator.ts    <span class="comment"># 报告生成器</span>
+│   ├── seerResearchService.ts <span class="comment"># SEER研究数据服务</span>
+│   └── db.ts                 <span class="comment"># 数据库操作</span>
+├── shared/                    <span class="comment"># 共享代码</span>
+│   ├── assessment.ts         <span class="comment"># 类型定义</span>
+│   ├── defaults.ts           <span class="comment"># 默认值配置</span>
+│   └── suggestionEngine.ts   <span class="comment"># 建议生成引擎</span>
+├── docs/                      <span class="comment"># GitHub Pages构建输出</span>
+├── drizzle/                   <span class="comment"># 数据库Schema</span>
+└── scripts/                   <span class="comment"># 工具脚本</span></pre>
+</div>
+
+<!-- 技术栈 -->
+<h2 class="section-title" style="margin-top:3rem">技术栈</h2>
+<p class="section-desc">现代化全栈技术栈</p>
+
+<table class="api-table">
+  <thead>
+    <tr><th>层级</th><th>技术</th><th>说明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>前端框架</td><td>React 19</td><td>最新React，支持Server Components</td></tr>
+    <tr><td>类型系统</td><td>TypeScript 5.9</td><td>严格类型检查，提升代码质量</td></tr>
+    <tr><td>构建工具</td><td>Vite 7</td><td>快速开发服务器和构建</td></tr>
+    <tr><td>样式方案</td><td>Tailwind CSS 4</td><td>原子化CSS，快速开发</td></tr>
+    <tr><td>UI组件</td><td>shadcn/ui + Radix</td><td>高质量可访问组件</td></tr>
+    <tr><td>后端框架</td><td>Express + tRPC</td><td>类型安全的API层</td></tr>
+    <tr><td>数据库</td><td>MySQL / Drizzle</td><td>ORM-first数据访问</td></tr>
+    <tr><td>图表库</td><td>Recharts</td><td>React图表组件</td></tr>
+    <tr><td>包管理</td><td>pnpm</td><td>高效磁盘空间利用</td></tr>
+  </tbody>
+</table>
+
+<!-- API参考 -->
+<h2 class="section-title" style="margin-top:3rem">API参考</h2>
+<p class="section-desc">核心API接口说明</p>
+
+<div class="endpoint">
+  <div class="endpoint-header">
+    <span class="method method-post">POST</span>
+    <span class="endpoint-path">/api/assessment</span>
+  </div>
+  <div class="endpoint-desc">提交风险评估数据，计算三维风险分数</div>
+  <table class="param-table">
+    <thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>gender</td><td>string</td><td>性别 (male/female)</td></tr>
+      <tr><td>flightDuration</td><td>number</td><td>平均单次飞行时长 (小时)</td></tr>
+      <tr><td>annualFlightHours</td><td>number</td><td>年度飞行小时数</td></tr>
+      <tr><td>metabolicData</td><td>object</td><td>代谢指标数据</td></tr>
+      <tr><td>healthData</td><td>object</td><td>健康指标数据</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="endpoint">
+  <div class="endpoint-header">
+    <span class="method method-get">GET</span>
+    <span class="endpoint-path">/api/papers</span>
+  </div>
+  <div class="endpoint-desc">获取研究论文列表</div>
+  <table class="param-table">
+    <thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>keyword</td><td>string</td><td>搜索关键词</td></tr>
+      <tr><td>tag</td><td>string</td><td>标签筛选</td></tr>
+      <tr><td>year</td><td>number</td><td>年份筛选</td></tr>
+      <tr><td>page</td><td>number</td><td>页码</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="endpoint">
+  <div class="endpoint-header">
+    <span class="method method-post">POST</span>
+    <span class="endpoint-path">/api/report</span>
+  </div>
+  <div class="endpoint-desc">生成PDF评估报告</div>
+  <table class="param-table">
+    <thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>assessmentId</td><td>string</td><td>评估记录ID</td></tr>
+      <tr><td>format</td><td>string</td><td>报告格式 (pdf/html)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 环境变量 -->
+<h2 class="section-title" style="margin-top:3rem">环境变量</h2>
+<p class="section-desc">配置文件说明</p>
+
+<div class="code-block">
+<pre><span class="comment"># .env.example</span>
+
+<span class="comment"># 数据库配置</span>
+<span class="flag">DATABASE_URL</span>=<span class="string">mysql://user:password@localhost:3306/pilotstone</span>
+
+<span class="comment"># 构建模式</span>
+<span class="flag">BUILD_MODE</span>=<span class="string">static</span>  <span class="comment"># static | full</span>
+
+<span class="comment"># 服务端口</span>
+<span class="flag">PORT</span>=<span class="string">3000</span>
+
+<span class="comment"># PubMed API (可选)</span>
+<span class="flag">PUBMED_API_KEY</span>=<span class="string">your_api_key</span></pre>
+</div>
+
+<!-- 部署方案 -->
+<h2 class="section-title" style="margin-top:3rem">部署方案</h2>
+<p class="section-desc">多种部署方式可选</p>
+
+<div class="doc-grid">
+  <div class="doc-card">
+    <h4>GitHub Pages (推荐)</h4>
+    <p>静态部署，免费托管，适合Demo和文档站点</p>
+    <div class="code-block" style="margin-top:1rem">
+      <pre><span class="comment"># 构建静态版本</span>
+<span class="flag">BUILD_MODE=static</span> <span class="cmd">pnpm</span> build
+<span class="comment"># 推送到docs/目录</span>
+<span class="cmd">git</span> add docs/ && <span class="cmd">git</span> commit -m <span class="string">"deploy"</span>
+<span class="cmd">git</span> push origin main</pre>
+    </div>
+  </div>
+  <div class="doc-card">
+    <h4>Docker部署</h4>
+    <p>容器化部署，适合生产环境</p>
+    <div class="code-block" style="margin-top:1rem">
+      <pre><span class="comment"># 构建镜像</span>
+<span class="cmd">docker-compose</span> build
+<span class="comment"># 启动服务</span>
+<span class="cmd">docker-compose</span> up -d</pre>
+    </div>
+  </div>
+  <div class="doc-card">
+    <h4>Vercel部署</h4>
+    <p>Serverless部署，自动扩展</p>
+    <div class="code-block" style="margin-top:1rem">
+      <pre><span class="comment"># 安装Vercel CLI</span>
+<span class="cmd">npm</span> i -g vercel
+<span class="comment"># 部署</span>
+<span class="cmd">vercel</span> --prod</pre>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://mokangmedical.github.io/opc-homepage/">OPC生态</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
+  <p>&copy; 2026 MoKangMedical. Part of OPC Ecosystem.</p>
+</footer>
+</body>
+</html>
