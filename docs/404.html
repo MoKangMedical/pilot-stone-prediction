@@ -6,19 +6,36 @@
 <title>404 - PilotStone</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#080b12;color:#f1f5f9;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:#080b12;color:#f1f5f9;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:2rem}
 a{color:#0ea5e9;text-decoration:none}
-h1{font-size:6rem;font-weight:800;background:linear-gradient(135deg,#fff,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
-p{color:#94a3b8;font-size:1.1rem;margin-bottom:2rem}
-.btn{display:inline-block;padding:.85rem 2rem;background:#0ea5e9;color:#fff;border-radius:8px;font-weight:600;transition:all .25s}
+h1{font-size:8rem;font-weight:800;background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(14,165,233,.3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:1rem}
+h2{font-size:1.5rem;font-weight:600;margin-bottom:.5rem}
+p{color:#94a3b8;font-size:1rem;margin-bottom:2rem;max-width:400px}
+.btn{display:inline-block;padding:.85rem 2rem;background:#0ea5e9;color:#fff;border-radius:8px;font-weight:600;transition:all .25s;margin:.5rem}
 .btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(14,165,233,.3)}
+.btn-outline{background:transparent;border:1px solid rgba(14,165,233,.4);color:#0ea5e9}
+.btn-outline:hover{background:rgba(14,165,233,.1)}
+.links{margin-top:2rem;display:flex;flex-wrap:wrap;justify-content:center;gap:1rem}
+.links a{color:#94a3b8;font-size:.85rem;padding:.5rem 1rem;border:1px solid rgba(255,255,255,.06);border-radius:8px;transition:all .2s}
+.links a:hover{border-color:rgba(14,165,233,.3);color:#0ea5e9}
 </style>
 </head>
 <body>
+<h1>404</h1>
+<h2>页面未找到</h2>
+<p>您访问的页面不存在或已被移动，请返回首页继续使用</p>
 <div>
-  <h1>404</h1>
-  <p>页面未找到</p>
   <a href="index.html" class="btn">返回首页</a>
+  <a href="demo.html" class="btn btn-outline">在线Demo</a>
+</div>
+<div class="links">
+  <a href="index.html">首页</a>
+  <a href="features.html">功能特性</a>
+  <a href="demo.html">在线Demo</a>
+  <a href="pricing.html">定价方案</a>
+  <a href="research.html">研究论文</a>
+  <a href="docs.html">开发文档</a>
+  <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
 </div>
 </body>
 </html>

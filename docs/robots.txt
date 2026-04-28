@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
 Sitemap: https://mokangmedical.github.io/pilot-stone-prediction/sitemap.xml
+
+# PilotStone - Pilot Kidney Stone Risk Assessment System
