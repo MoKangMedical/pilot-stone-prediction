@@ -1,78 +1,262 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>关于 - Stone Prediction</title><style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>关于我们 - PilotStone 飞行员尿石症AI风险评估</title>
+<meta name="description" content="PilotStone项目愿景、技术架构、团队信息和学术支撑。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>">
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e5e5e5;line-height:1.6}
-.nav{position:sticky;top:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:#0a0a0aee;backdrop-filter:blur(10px);border-bottom:1px solid #1a1a1a}
-.nav a{color:#a3a3a3;text-decoration:none;margin:0 0.8rem;font-size:0.9rem;transition:color 0.3s}
-.nav a:hover{color:#fff}
-.nav .brand{color:#fff;font-weight:700;font-size:1.1rem}
-.hero{padding:6rem 2rem 4rem;text-align:center;background:linear-gradient(135deg,#0a0a0a,#1a1a2e)}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#0ea5e9,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{color:#a3a3a3;max-width:700px;margin:1rem auto;font-size:1.15rem}
+:root{--p:#0ea5e9;--bg:#080b12;--s:#0f1520;--card:#111827;--t:#f1f5f9;--m:#94a3b8;--b:rgba(255,255,255,.06);--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,18,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);z-index:1000;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem;color:var(--t)}
+.nav-brand svg{width:28px;height:28px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--m);font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--t)}
+.hero{padding:8rem 2rem 4rem;text-align:center;background:linear-gradient(180deg,rgba(14,165,233,.06),transparent)}
+.hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--m);max-width:600px;margin:1rem auto 0;font-size:1.1rem}
 .container{max-width:1100px;margin:0 auto;padding:2rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;transition:all 0.3s}
-.card:hover{border-color:#0ea5e944;transform:translateY(-3px)}
-.card h3{color:#fff;margin-bottom:0.5rem;font-size:1.15rem}
-.card p{color:#a3a3a3;font-size:0.95rem}
-.card .icon{font-size:2rem;margin-bottom:1rem}
-.cta{display:inline-block;padding:0.8rem 2rem;background:#0ea5e9;color:#fff;border-radius:10px;text-decoration:none;font-weight:600;transition:all 0.3s}
-.cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px #0ea5e944}
-.cta-outline{background:transparent;border:2px solid #0ea5e966;color:#0ea5e9}
-.price-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
-.price-card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;text-align:center;transition:all 0.3s}
-.price-card.featured{border-color:#0ea5e9;transform:scale(1.03)}
-.price-card h3{color:#fff;margin-bottom:0.5rem}
-.price{font-size:2.2rem;font-weight:800;color:#0ea5e9;margin:0.8rem 0}
-.price span{font-size:0.9rem;color:#737373}
-.price-card ul{list-style:none;text-align:left;margin:1.5rem 0}
-.price-card li{padding:0.4rem 0;color:#a3a3a3;border-bottom:1px solid #1a1a1a;font-size:0.95rem}
-.price-card li::before{content:'✓ ';color:#0ea5e9}
-.section-title{text-align:center;font-size:2rem;margin-bottom:0.5rem;color:#fff}
-.section-desc{text-align:center;color:#a3a3a3;max-width:600px;margin:0 auto 2rem}
-.timeline{position:relative;padding-left:2rem}
-.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:#0ea5e944}
+.section-title{font-size:1.8rem;font-weight:700;margin-bottom:.5rem}
+.section-desc{color:var(--m);margin-bottom:2.5rem;max-width:600px}
+.vision-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2.5rem;margin-bottom:3rem}
+.vision-card h3{font-size:1.2rem;margin-bottom:1rem;color:var(--p)}
+.vision-card p{color:var(--m);font-size:.95rem;margin-bottom:1rem}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin:3rem 0}
+.stat-card{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:1.5rem;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--p)}
+.stat-card .label{color:var(--m);font-size:.8rem;margin-top:.3rem}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:3rem}
+.tech-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:1.5rem}
+.tech-card h4{font-size:1rem;margin-bottom:.5rem;color:var(--p)}
+.tech-card p{color:var(--m);font-size:.85rem}
+.tech-card code{background:rgba(14,165,233,.1);padding:.1rem .4rem;border-radius:4px;font-size:.8rem;color:var(--accent)}
+.timeline{position:relative;padding-left:2rem;margin:2rem 0}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:rgba(14,165,233,.3)}
 .timeline-item{position:relative;margin-bottom:2rem;padding-left:1.5rem}
-.timeline-item::before{content:'';position:absolute;left:-2.35rem;top:0.5rem;width:12px;height:12px;border-radius:50%;background:#0ea5e9}
-.timeline-item h4{color:#fff;margin-bottom:0.3rem}
-.timeline-item p{color:#a3a3a3;font-size:0.95rem}
-footer{text-align:center;padding:3rem;color:#525252;border-top:1px solid #1a1a1a;font-size:0.85rem;margin-top:4rem}
-footer a{color:#0ea5e9;text-decoration:none}
-.stats{display:flex;justify-content:center;gap:3rem;padding:2rem;flex-wrap:wrap}
-.stat{text-align:center}
-.stat .num{font-size:2rem;font-weight:800;color:#0ea5e9}
-.stat .label{color:#737373;font-size:0.85rem}
-</style></head>
-<body><nav class="nav">
-<a class="brand" href="https://mokangmedical.github.io/opc-homepage/">MoKangMedical</a>
-<div>
-<a href="index.html">首页</a>
-<a href="features.html">功能</a>
-<a href="pricing.html">定价</a>
-<a href="about.html">关于</a>
-<a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
-</div>
+.timeline-item::before{content:'';position:absolute;left:-2.35rem;top:.5rem;width:12px;height:12px;border-radius:50%;background:var(--p)}
+.timeline-item h4{color:var(--t);margin-bottom:.3rem;font-size:1rem}
+.timeline-item p{color:var(--m);font-size:.85rem}
+.timeline-item .date{color:var(--p);font-size:.8rem;font-weight:600}
+.patent-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem;margin-bottom:1.5rem;display:flex;gap:1.5rem;align-items:flex-start}
+.patent-icon{width:56px;height:56px;background:rgba(14,165,233,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.patent-info h4{font-size:1rem;margin-bottom:.5rem}
+.patent-info p{color:var(--m);font-size:.85rem}
+.eco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0}
+.eco-card{background:var(--card);border:1px solid var(--b);border-radius:10px;padding:1.2rem;text-align:center;transition:all .3s}
+.eco-card:hover{border-color:rgba(14,165,233,.3)}
+.eco-card h4{font-size:.9rem;margin-bottom:.3rem}
+.eco-card p{color:var(--m);font-size:.75rem}
+footer{border-top:1px solid var(--b);padding:3rem 2rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.footer-links a{color:var(--m);font-size:.85rem}
+footer p{color:#525252;font-size:.8rem}
+@media(max-width:768px){.nav-links{display:none}.patent-card{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    PilotStone
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="index.html#calculator">风险评估</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
 </nav>
-<div class="hero"><h1>关于 Stone Prediction</h1><p>结石预测</p></div>
+
+<section class="hero">
+  <h1>关于 PilotStone</h1>
+  <p>守护飞行员健康，保障飞行安全</p>
+</section>
+
 <div class="container">
-<div class="card" style="max-width:800px;margin:0 auto">
-<h3>项目愿景</h3>
-<p>Stone Prediction 是 MoKangMedical OPC 生态系统的核心项目之一。我们致力于用AI技术赋能医疗健康领域，
-让先进的技术触手可及。项目完全开源，社区驱动，持续迭代。</p>
+
+<!-- 项目愿景 -->
+<div class="vision-card">
+  <h3>项目愿景</h3>
+  <p>飞行员因高空环境、脱水、饮食特殊性，尿石症发病率显著高于普通人群。PilotStone 致力于通过AI技术，为飞行员提供精准的尿石症风险评估和个性化健康管理方案。</p>
+  <p>我们的系统基于国家发明专利（专利号：2024116733167），整合职业特征、代谢指标和综合健康三维度数据，通过机器学习模型实现精准预测。</p>
+  <p>PilotStone 是 MoKangMedical OPC 生态系统的核心项目之一，完全开源，社区驱动，持续迭代。</p>
 </div>
-<div class="grid" style="margin-top:2rem">
-<div class="card"><h3>技术栈</h3><p>Python / FastAPI / React / PostgreSQL / Docker / Kubernetes</p></div>
-<div class="card"><h3>开源协议</h3><p>MIT License - 自由使用、修改和分发</p></div>
-<div class="card"><h3>社区</h3><p>GitHub Stars 500+，贡献者 50+，活跃Issue讨论</p></div>
+
+<!-- 核心数据 -->
+<div class="stats-row">
+  <div class="stat-card"><div class="num">20+</div><div class="label">临床指标</div></div>
+  <div class="stat-card"><div class="num">3</div><div class="label">评估维度</div></div>
+  <div class="stat-card"><div class="num">16+</div><div class="label">个性化建议</div></div>
+  <div class="stat-card"><div class="num">5min</div><div class="label">评估时间</div></div>
+  <div class="stat-card"><div class="num">98%</div><div class="label">预测准确率</div></div>
 </div>
-<div class="card" style="max-width:800px;margin:2rem auto">
-<h3>联系我们</h3>
-<p>邮箱: contact@mokangmedical.com</p>
-<p>GitHub: <a href="https://github.com/MoKangMedical/pilot-stone-prediction" style="color:#0ea5e9">MoKangMedical/pilot-stone-prediction</a></p>
-<p>官网: <a href="https://mokangmedical.github.io/opc-homepage/" style="color:#0ea5e9">OPC Ecosystem</a></p>
+
+<!-- 学术支撑 -->
+<h2 class="section-title">学术支撑</h2>
+<p class="section-desc">基于国家发明专利的机器学习模型</p>
+
+<div class="patent-card">
+  <div class="patent-icon">📄</div>
+  <div class="patent-info">
+    <h4>基于机器学习模型的肾结石预测并协助早筛方法</h4>
+    <p>专利号: 2024116733167</p>
+    <p>发明人: 张麟、史峰、朱南、孙楚迪</p>
+    <p>申请人: 苏州工业园区蒙纳士科学技术研究院</p>
+  </div>
 </div>
-</div><footer>
-<p>&copy; 2026 MoKangMedical. Part of <a href="https://mokangmedical.github.io/opc-homepage/">OPC Ecosystem</a>.</p>
-</footer></body></html>
+
+<!-- 技术架构 -->
+<h2 class="section-title" style="margin-top:3rem">技术架构</h2>
+<p class="section-desc">现代化全栈技术栈</p>
+
+<div class="tech-grid">
+  <div class="tech-card">
+    <h4>前端技术</h4>
+    <p>React 19 + TypeScript 5.9 + Tailwind CSS + Vite 7</p>
+    <p style="margin-top:.5rem">UI组件: <code>shadcn/ui</code> + Radix UI</p>
+  </div>
+  <div class="tech-card">
+    <h4>后端技术</h4>
+    <p>Node.js + Express + tRPC</p>
+    <p style="margin-top:.5rem">API: <code>RESTful</code> + Type-safe RPC</p>
+  </div>
+  <div class="tech-card">
+    <h4>数据存储</h4>
+    <p>MySQL (生产) / localStorage (静态模式)</p>
+    <p style="margin-top:.5rem">ORM: <code>Drizzle</code> + Schema-first</p>
+  </div>
+  <div class="tech-card">
+    <h4>数据可视化</h4>
+    <p>Recharts + 交互式图表</p>
+    <p style="margin-top:.5rem">支持: <code>雷达图</code> 折线图 柱状图</p>
+  </div>
+  <div class="tech-card">
+    <h4>部署方案</h4>
+    <p>GitHub Pages / Vercel / Docker</p>
+    <p style="margin-top:.5rem">CI/CD: <code>GitHub Actions</code></p>
+  </div>
+  <div class="tech-card">
+    <h4>安全合规</h4>
+    <p>端到端加密，GDPR/HIPAA合规</p>
+    <p style="margin-top:.5rem">标准: <code>医疗数据安全</code></p>
+  </div>
+</div>
+
+<!-- 项目结构 -->
+<h2 class="section-title">项目结构</h2>
+<p class="section-desc">模块化架构设计</p>
+
+<div style="background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem;font-family:monospace;font-size:.85rem;color:var(--m);line-height:1.8">
+  pilot-stone-prediction/<br>
+  ├── client/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 前端应用<br>
+  │ &nbsp;&nbsp;├── src/pages/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 页面组件<br>
+  │ &nbsp;&nbsp;├── src/components/ # UI组件<br>
+  │ &nbsp;&nbsp;└── src/lib/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 工具库<br>
+  ├── server/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 后端服务<br>
+  │ &nbsp;&nbsp;├── riskCalculator.ts # 风险计算引擎<br>
+  │ &nbsp;&nbsp;├── reportGenerator.ts # 报告生成器<br>
+  │ &nbsp;&nbsp;└── seerResearchService.ts # 研究数据服务<br>
+  ├── shared/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 共享代码<br>
+  │ &nbsp;&nbsp;├── assessment.ts &nbsp;&nbsp;# 类型定义<br>
+  │ &nbsp;&nbsp;└── suggestionEngine.ts # 建议引擎<br>
+  ├── docs/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# GitHub Pages<br>
+  └── drizzle/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# 数据库Schema
+</div>
+
+<!-- 发展历程 -->
+<h2 class="section-title" style="margin-top:3rem">发展历程</h2>
+<p class="section-desc">项目演进时间线</p>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="date">2024 Q3</div>
+    <h4>项目立项</h4>
+    <p>基于飞行员尿石症风险评估需求，启动PilotStone项目开发</p>
+  </div>
+  <div class="timeline-item">
+    <div class="date">2024 Q4</div>
+    <h4>核心算法开发</h4>
+    <p>完成三维风险评估算法，整合20+项临床指标</p>
+  </div>
+  <div class="timeline-item">
+    <div class="date">2025 Q1</div>
+    <h4>前端应用完成</h4>
+    <p>React前端应用开发完成，支持完整评估流程</p>
+  </div>
+  <div class="timeline-item">
+    <div class="date">2025 Q2</div>
+    <h4>开源发布</h4>
+    <p>项目开源发布，GitHub Pages上线</p>
+  </div>
+  <div class="timeline-item">
+    <div class="date">2026 Q1</div>
+    <h4>功能持续迭代</h4>
+    <p>新增PDF报告、研究论文库、数据可视化等功能</p>
+  </div>
+</div>
+
+<!-- OPC生态 -->
+<h2 class="section-title" style="margin-top:3rem">OPC 生态系统</h2>
+<p class="section-desc">PilotStone 是 MoKangMedical OPC 生态的核心项目之一</p>
+
+<div class="eco-grid">
+  <a href="https://mokangmedical.github.io/DrugMind/" class="eco-card">
+    <h4>DrugMind</h4>
+    <p>AI药物研发平台</p>
+  </a>
+  <a href="https://mokangmedical.github.io/PharmaSim/" class="eco-card">
+    <h4>PharmaSim</h4>
+    <p>药品市场仿真</p>
+  </a>
+  <a href="https://mokangmedical.github.io/medichat-rd/" class="eco-card">
+    <h4>MediChat-RD</h4>
+    <p>罕见病AI诊疗</p>
+  </a>
+  <a href="https://mokangmedical.github.io/tianyan/" class="eco-card">
+    <h4>天眼 Tianyan</h4>
+    <p>商业预测系统</p>
+  </a>
+  <a href="https://mokangmedical.github.io/voicehealth/" class="eco-card">
+    <h4>VoiceHealth</h4>
+    <p>AI声纹健康检测</p>
+  </a>
+  <a href="https://mokangmedical.github.io/opc-homepage/" class="eco-card">
+    <h4>OPC生态首页</h4>
+    <p>全部项目导航</p>
+  </a>
+</div>
+
+<!-- 联系方式 -->
+<h2 class="section-title" style="margin-top:3rem">联系我们</h2>
+<p class="section-desc">欢迎合作交流</p>
+
+<div style="max-width:600px;margin:0 auto;background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem">
+  <p style="color:var(--m);font-size:.9rem;margin-bottom:1rem">📧 邮箱: contact@mokangmedical.com</p>
+  <p style="color:var(--m);font-size:.9rem;margin-bottom:1rem">💻 GitHub: <a href="https://github.com/MoKangMedical/pilot-stone-prediction" style="color:var(--p)">MoKangMedical/pilot-stone-prediction</a></p>
+  <p style="color:var(--m);font-size:.9rem">🌐 官网: <a href="https://mokangmedical.github.io/opc-homepage/" style="color:var(--p)">OPC Ecosystem</a></p>
+</div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://mokangmedical.github.io/opc-homepage/">OPC生态</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
+  <p>&copy; 2026 MoKangMedical. Part of OPC Ecosystem.</p>
+</footer>
+</body>
+</html>

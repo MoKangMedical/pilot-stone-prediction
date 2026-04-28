@@ -1,71 +1,303 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>功能特性 - Stone Prediction</title><style>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>功能特性 - PilotStone 飞行员尿石症AI风险评估</title>
+<meta name="description" content="PilotStone核心功能详解：三维风险评估、代谢面板分析、飞行因素量化、个性化建议生成。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡</text></svg>">
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;color:#e5e5e5;line-height:1.6}
-.nav{position:sticky;top:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:#0a0a0aee;backdrop-filter:blur(10px);border-bottom:1px solid #1a1a1a}
-.nav a{color:#a3a3a3;text-decoration:none;margin:0 0.8rem;font-size:0.9rem;transition:color 0.3s}
-.nav a:hover{color:#fff}
-.nav .brand{color:#fff;font-weight:700;font-size:1.1rem}
-.hero{padding:6rem 2rem 4rem;text-align:center;background:linear-gradient(135deg,#0a0a0a,#1a1a2e)}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#0ea5e9,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{color:#a3a3a3;max-width:700px;margin:1rem auto;font-size:1.15rem}
+:root{--p:#0ea5e9;--bg:#080b12;--s:#0f1520;--card:#111827;--t:#f1f5f9;--m:#94a3b8;--b:rgba(255,255,255,.06);--green:#22c55e;--yellow:#eab308;--red:#ef4444;--purple:#a855f7}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(8,11,18,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--b);z-index:1000;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem;color:var(--t)}
+.nav-brand svg{width:28px;height:28px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--m);font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--t)}
+.hero{padding:8rem 2rem 4rem;text-align:center;background:linear-gradient(180deg,rgba(14,165,233,.06),transparent)}
+.hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--m);max-width:600px;margin:1rem auto 0;font-size:1.1rem}
 .container{max-width:1100px;margin:0 auto;padding:2rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;transition:all 0.3s}
-.card:hover{border-color:#0ea5e944;transform:translateY(-3px)}
-.card h3{color:#fff;margin-bottom:0.5rem;font-size:1.15rem}
-.card p{color:#a3a3a3;font-size:0.95rem}
-.card .icon{font-size:2rem;margin-bottom:1rem}
-.cta{display:inline-block;padding:0.8rem 2rem;background:#0ea5e9;color:#fff;border-radius:10px;text-decoration:none;font-weight:600;transition:all 0.3s}
-.cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px #0ea5e944}
-.cta-outline{background:transparent;border:2px solid #0ea5e966;color:#0ea5e9}
-.price-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
-.price-card{background:#141414;border:1px solid #262626;border-radius:16px;padding:2rem;text-align:center;transition:all 0.3s}
-.price-card.featured{border-color:#0ea5e9;transform:scale(1.03)}
-.price-card h3{color:#fff;margin-bottom:0.5rem}
-.price{font-size:2.2rem;font-weight:800;color:#0ea5e9;margin:0.8rem 0}
-.price span{font-size:0.9rem;color:#737373}
-.price-card ul{list-style:none;text-align:left;margin:1.5rem 0}
-.price-card li{padding:0.4rem 0;color:#a3a3a3;border-bottom:1px solid #1a1a1a;font-size:0.95rem}
-.price-card li::before{content:'✓ ';color:#0ea5e9}
-.section-title{text-align:center;font-size:2rem;margin-bottom:0.5rem;color:#fff}
-.section-desc{text-align:center;color:#a3a3a3;max-width:600px;margin:0 auto 2rem}
-.timeline{position:relative;padding-left:2rem}
-.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:#0ea5e944}
-.timeline-item{position:relative;margin-bottom:2rem;padding-left:1.5rem}
-.timeline-item::before{content:'';position:absolute;left:-2.35rem;top:0.5rem;width:12px;height:12px;border-radius:50%;background:#0ea5e9}
-.timeline-item h4{color:#fff;margin-bottom:0.3rem}
-.timeline-item p{color:#a3a3a3;font-size:0.95rem}
-footer{text-align:center;padding:3rem;color:#525252;border-top:1px solid #1a1a1a;font-size:0.85rem;margin-top:4rem}
-footer a{color:#0ea5e9;text-decoration:none}
-.stats{display:flex;justify-content:center;gap:3rem;padding:2rem;flex-wrap:wrap}
-.stat{text-align:center}
-.stat .num{font-size:2rem;font-weight:800;color:#0ea5e9}
-.stat .label{color:#737373;font-size:0.85rem}
-</style></head>
-<body><nav class="nav">
-<a class="brand" href="https://mokangmedical.github.io/opc-homepage/">MoKangMedical</a>
-<div>
-<a href="index.html">首页</a>
-<a href="features.html">功能</a>
-<a href="pricing.html">定价</a>
-<a href="about.html">关于</a>
-<a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
-</div>
+.section-title{font-size:1.8rem;font-weight:700;margin-bottom:.5rem}
+.section-desc{color:var(--m);margin-bottom:2.5rem;max-width:600px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:4rem}
+.card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem;transition:all .3s}
+.card:hover{border-color:rgba(14,165,233,.3);transform:translateY(-3px)}
+.card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1rem}
+.ci-blue{background:rgba(14,165,233,.15)}
+.ci-green{background:rgba(34,197,94,.15)}
+.ci-yellow{background:rgba(234,179,8,.15)}
+.ci-red{background:rgba(239,68,68,.15)}
+.ci-purple{background:rgba(168,85,247,.15)}
+.card h3{font-size:1.05rem;margin-bottom:.5rem}
+.card p{color:var(--m);font-size:.9rem}
+.card ul{list-style:none;margin-top:.8rem}
+.card li{color:var(--m);font-size:.85rem;padding:.3rem 0;border-bottom:1px solid var(--b)}
+.card li:last-child{border:none}
+.detail-section{background:var(--s);padding:4rem 0;margin:3rem 0}
+.detail-inner{max-width:1100px;margin:0 auto;padding:0 2rem}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.detail-text h3{font-size:1.4rem;margin-bottom:1rem}
+.detail-text p{color:var(--m);font-size:.9rem;margin-bottom:1rem}
+.detail-text .highlight{color:var(--p);font-weight:600}
+.detail-visual{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem}
+.indicator-table{width:100%;border-collapse:collapse}
+.indicator-table th{text-align:left;padding:.6rem;color:var(--m);font-size:.8rem;border-bottom:1px solid var(--b)}
+.indicator-table td{padding:.6rem;font-size:.85rem;border-bottom:1px solid var(--b)}
+.indicator-table td:first-child{color:var(--accent)}
+.indicator-table td:last-child{text-align:right}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:4px;font-size:.7rem;font-weight:600}
+.badge-high{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-medium{background:rgba(234,179,8,.15);color:var(--yellow)}
+.badge-low{background:rgba(34,197,94,.15);color:var(--green)}
+.algo-card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:2rem;margin-bottom:1.5rem}
+.algo-card h4{font-size:1rem;margin-bottom:.5rem;color:var(--p)}
+.algo-card p{color:var(--m);font-size:.85rem}
+.algo-card code{background:rgba(14,165,233,.1);padding:.1rem .4rem;border-radius:4px;font-size:.8rem;color:var(--accent)}
+footer{border-top:1px solid var(--b);padding:3rem 2rem;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.footer-links a{color:var(--m);font-size:.85rem}
+footer p{color:#525252;font-size:.8rem}
+@media(max-width:768px){.nav-links{display:none}.detail-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    PilotStone
+  </a>
+  <div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="index.html#calculator">风险评估</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
 </nav>
-<div class="hero"><h1>核心功能</h1><p>Stone Prediction 提供全方位的专业功能，助力您的工作流</p></div>
-<div class="container"><div class="grid">
-<div class="card"><h3>智能分析引擎</h3><p>基于深度学习的智能分析核心，自动处理复杂数据，提供精准洞察</p></div>
-<div class="card"><h3>实时数据处理</h3><p>毫秒级实时数据处理能力，支持大规模并发场景</p></div>
-<div class="card"><h3>可视化报告</h3><p>一键生成专业可视化报告，支持多种导出格式</p></div>
-<div class="card"><h3>API开放平台</h3><p>完整的RESTful API接口，支持第三方系统集成</p></div>
-<div class="card"><h3>团队协作</h3><p>多人实时协作，权限精细化管理，审计日志完整</p></div>
-<div class="card"><h3>安全合规</h3><p>端到端加密，符合GDPR/HIPAA等国际合规标准</p></div>
-<div class="card"><h3>自动化工作流</h3><p>可视化工作流编排，定时任务，事件触发自动化</p></div>
-<div class="card"><h3>多语言支持</h3><p>中英日韩等多语言界面，国际化部署无门槛</p></div>
-<div class="card"><h3>插件生态</h3><p>丰富的插件市场，支持自定义插件开发</p></div>
-</div></div><footer>
-<p>&copy; 2026 MoKangMedical. Part of <a href="https://mokangmedical.github.io/opc-homepage/">OPC Ecosystem</a>.</p>
-</footer></body></html>
+
+<section class="hero">
+  <h1>功能特性详解</h1>
+  <p>PilotStone 提供全方位的飞行员尿石症风险评估能力</p>
+</section>
+
+<div class="container">
+
+<!-- 三维评估体系 -->
+<h2 class="section-title">三维风险评估体系</h2>
+<p class="section-desc">PilotStone采用独创的三维加权评估模型，从职业、代谢、健康三个维度全面评估尿石症风险</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon ci-blue">✈</div>
+    <h3>职业特征维度 (权重30%)</h3>
+    <p>评估飞行员职业环境对结石形成的影响</p>
+    <ul>
+      <li>平均单次飞行时长</li>
+      <li>年度飞行小时数</li>
+      <li>高空巡航比例</li>
+      <li>时区跨越飞行频次</li>
+      <li>驾驶舱温度</li>
+      <li>备降次数</li>
+      <li>航空餐盐分摄入</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-icon ci-green">📊</div>
+    <h3>代谢指标维度 (权重40%)</h3>
+    <p>20+项临床代谢指标智能分析</p>
+    <ul>
+      <li>血清草酸盐 (20-100 μmol/L)</li>
+      <li>尿酸 (男208-428/女155-357 μmol/L)</li>
+      <li>钙磷比值 (1.0-3.0)</li>
+      <li>尿液比重 (1.010-1.025)</li>
+      <li>尿液PH值 (5.5-7.0)</li>
+      <li>尿素/肌酐比</li>
+      <li>脂蛋白(a)、超敏CRP</li>
+      <li>空腹血糖、HbA1c</li>
+      <li>总胆固醇、HDL、LDL、甘油三酯</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-icon ci-yellow">💪</div>
+    <h3>综合健康维度 (权重30%)</h3>
+    <p>生活方式与健康状态综合评估</p>
+    <ul>
+      <li>体脂率</li>
+      <li>血压 (收缩压/舒张压)</li>
+      <li>每日饮水量</li>
+      <li>每周运动时间</li>
+      <li>睡眠质量指数</li>
+      <li>工作压力指数</li>
+      <li>辐射暴露水平</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 详细功能 -->
+<h2 class="section-title">详细功能模块</h2>
+<p class="section-desc">六大核心模块覆盖完整评估流程</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon ci-blue">🧮</div>
+    <h3>风险计算器</h3>
+    <p>核心算法引擎，实时计算三维风险分数</p>
+    <ul>
+      <li>飞行风险归一化算法</li>
+      <li>代谢风险加权计算</li>
+      <li>健康风险综合评估</li>
+      <li>综合风险 = 飞行×0.3 + 代谢×0.4 + 健康×0.3</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-icon ci-green">📋</div>
+    <h3>个性化建议引擎</h3>
+    <p>根据评估结果自动生成16+条健康建议</p>
+    <ul>
+      <li>风险级别通用建议</li>
+      <li>尿酸管理建议</li>
+      <li>钙磷平衡建议</li>
+      <li>尿液酸碱度管理</li>
+      <li>体脂管理建议</li>
+      <li>科学饮水建议</li>
+      <li>运动健身建议</li>
+      <li>飞行职业特殊建议</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-icon ci-purple">📄</div>
+    <h3>PDF报告生成</h3>
+    <p>一键导出医疗级评估报告</p>
+    <ul>
+      <li>风险分数仪表盘</li>
+      <li>三维风险分解图表</li>
+      <li>异常指标高亮标注</li>
+      <li>个性化建议全文</li>
+      <li>历史趋势对比</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-icon ci-yellow">🔬</div>
+    <h3>研究论文库</h3>
+    <p>整合PubMed最新肾结石研究</p>
+    <ul>
+      <li>自动抓取最新论文</li>
+      <li>关键词/标签/年份筛选</li>
+      <li>飞行员特异性研究</li>
+      <li>SEER数据集成</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-icon ci-red">📈</div>
+    <h3>数据可视化</h3>
+    <p>直观的图表展示评估结果</p>
+    <ul>
+      <li>Recharts交互式图表</li>
+      <li>三维雷达图</li>
+      <li>风险趋势折线图</li>
+      <li>指标分布柱状图</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-icon ci-blue">🔒</div>
+    <h3>数据安全</h3>
+    <p>符合医疗数据安全标准</p>
+    <ul>
+      <li>端到端加密</li>
+      <li>GDPR/HIPAA合规</li>
+      <li>localStorage本地存储</li>
+      <li>审计日志</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<!-- 技术细节 -->
+<div class="detail-section">
+  <div class="detail-inner">
+    <h2 class="section-title" style="margin-bottom:2rem">风险评估算法</h2>
+
+    <div class="algo-card">
+      <h4>飞行风险计算</h4>
+      <p>归一化各项飞行指标，加权平均计算飞行风险分数：</p>
+      <p style="margin-top:.5rem"><code>flightRisk = (normFlightDuration + normAnnualFlight + normAltitude + normTimezone + normCockpitTemp + normDiversions + normSalt) / 7</code></p>
+    </div>
+
+    <div class="algo-card">
+      <h4>代谢风险计算</h4>
+      <p>综合分析20+项代谢指标，包括草酸盐、尿酸结晶指数、钙磷比、尿液比重等核心指标：</p>
+      <p style="margin-top:.5rem"><code>metabolicRisk = weightedSum(serumOxalate, uricAcidCrystal, calciumRatio, urineGravity, ureaCreatinine, lipoproteinA, hsCRP, ...) / totalWeight</code></p>
+    </div>
+
+    <div class="algo-card">
+      <h4>健康风险计算</h4>
+      <p>评估体脂率、血压、运动量、饮水量、睡眠质量等生活方式指标：</p>
+      <p style="margin-top:.5rem"><code>healthRisk = weightedSum(bodyFat, bloodPressure, exercise, waterIntake, sleepQuality) / totalWeight</code></p>
+    </div>
+
+    <div class="algo-card">
+      <h4>综合风险等级判定</h4>
+      <p>三维加权综合评估，四级风险等级划分：</p>
+      <p style="margin-top:.5rem"><code>overallRisk = flightRisk × 0.3 + metabolicRisk × 0.4 + healthRisk × 0.3</code></p>
+      <p style="margin-top:.5rem">低风险(&lt;20%) | 中等风险(20-50%) | 高风险(50-80%) | 极高风险(&gt;80%)</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- 临床指标参考 -->
+<h2 class="section-title" style="margin-top:3rem">临床指标参考范围</h2>
+<p class="section-desc">系统内置的正常参考范围，用于风险评估计算</p>
+
+<div style="overflow-x:auto">
+<table class="indicator-table">
+  <thead>
+    <tr><th>指标</th><th>正常范围</th><th>结石风险关联</th><th>权重</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>血清草酸盐</td><td>20-40 μmol/L</td><td><span class="badge badge-high">高关联</span></td><td>0.8</td></tr>
+    <tr><td>尿酸 (男)</td><td>208-428 μmol/L</td><td><span class="badge badge-high">高关联</span></td><td>0.7</td></tr>
+    <tr><td>钙磷比</td><td>1.0-3.0</td><td><span class="badge badge-high">高关联</span></td><td>0.6</td></tr>
+    <tr><td>尿液比重</td><td>1.010-1.025</td><td><span class="badge badge-medium">中关联</span></td><td>0.5</td></tr>
+    <tr><td>尿液PH</td><td>5.5-7.0</td><td><span class="badge badge-medium">中关联</span></td><td>0.5</td></tr>
+    <tr><td>空腹血糖</td><td>3.9-6.1 mmol/L</td><td><span class="badge badge-medium">中关联</span></td><td>0.7</td></tr>
+    <tr><td>HbA1c</td><td>4.0-6.0%</td><td><span class="badge badge-medium">中关联</span></td><td>0.7</td></tr>
+    <tr><td>总胆固醇</td><td>2.8-5.2 mmol/L</td><td><span class="badge badge-low">低关联</span></td><td>0.5</td></tr>
+    <tr><td>HDL</td><td>1.0-1.6 mmol/L</td><td><span class="badge badge-low">低关联</span></td><td>0.4</td></tr>
+    <tr><td>LDL</td><td>2.1-3.4 mmol/L</td><td><span class="badge badge-low">低关联</span></td><td>0.6</td></tr>
+    <tr><td>超敏CRP</td><td>0-3.0 mg/L</td><td><span class="badge badge-medium">中关联</span></td><td>0.5</td></tr>
+    <tr><td>脂蛋白(a)</td><td>0-30 mg/dL</td><td><span class="badge badge-low">低关联</span></td><td>0.4</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+<section style="text-align:center;padding:4rem 2rem">
+  <h2 style="font-size:1.8rem;font-weight:700;margin-bottom:1rem">开始使用PilotStone</h2>
+  <p style="color:var(--m);margin-bottom:2rem">5分钟完成全面风险评估，获取个性化健康建议</p>
+  <a href="index.html#calculator" style="display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:var(--p);color:#fff;border-radius:8px;font-weight:600;transition:all .25s">开始评估</a>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="features.html">功能</a>
+    <a href="pricing.html">定价</a>
+    <a href="about.html">关于</a>
+    <a href="research.html">研究</a>
+    <a href="https://mokangmedical.github.io/opc-homepage/">OPC生态</a>
+    <a href="https://github.com/MoKangMedical/pilot-stone-prediction">GitHub</a>
+  </div>
+  <p>&copy; 2026 MoKangMedical. Part of OPC Ecosystem.</p>
+</footer>
+</body>
+</html>
